@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-arc'
@@ -38,5 +39,5 @@ compileTestJava {
 
 
 quarkus {
-    outputName = "jsifen-1.0.0-SNAPSHOT-runner"
+    // outputName = "jsifen-1.0.0-SNAPSHOT-runner"
 }
