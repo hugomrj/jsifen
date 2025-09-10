@@ -1,12 +1,14 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+    id 'application'   // permite usar gradlew run
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
 }
+
 
 dependencies {
     implementation 'io.quarkus:quarkus-smallrye-openapi'
@@ -15,6 +17,11 @@ dependencies {
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+
+    // Para JSON
+    implementation 'com.google.code.gson:gson:2.10.1' // Gson
+    implementation 'org.json:json:20230227' // JSON-javaen
+
 }
 
 group = 'py.com'
@@ -40,4 +47,24 @@ compileTestJava {
 
 quarkus {
     // outputName = "jsifen-1.0.0-SNAPSHOT-runner"
+}
+
+
+
+
+tasks.register('runMain', JavaExec) {
+    description = 'Ejecuta cualquier clase main pasando el nombre como parámetro.'
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('mainClassName')) {
+        mainClass = project.property('mainClassName')
+    }
+}
+
+
+tasks.register('runTest', JavaExec) {
+    description = 'Ejecuta una clase con un método main desde el classpath de test.'
+    classpath = sourceSets.test.runtimeClasspath
+    if (project.hasProperty('mainClassName')) {
+        mainClass = project.property('mainClassName')
+    }
 }
