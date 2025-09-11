@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redoc API Docs</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1>Redoc API Docs</h1>
+
+<redoc
+    spec-url="/q/openapi.yaml"
+    required-props-first=true
+    theme='{}'
+    >
+</redoc>
+
+
+<redoc spec-url='http://petstore.swagger.io/v2/swagger.json'
+       required-props-first=true
+       theme='{
+         "sidebar": {
+           "backgroundColor": "lightblue"
+         }
+       }'
+></redoc>
+
+
+<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+</body>
+</html>
