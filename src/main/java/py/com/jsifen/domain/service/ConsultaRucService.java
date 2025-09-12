@@ -13,7 +13,6 @@ import java.util.Map;
 public class ConsultaRucService {
 
 
-
     public JsonObject consultar(String ruc) {
         JsonObject resultado = this.consultar("prod", ruc);;
         return resultado;
