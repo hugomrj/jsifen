@@ -1,6 +1,5 @@
 package py.com.jsifen.domain.service;
 
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;

@@ -57,7 +57,6 @@ public class ConsultaRucResource {
                     .entity(json_response)
                     .build();
 
-
         } catch (Exception e) {
             // Cualquier error se devuelve como HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

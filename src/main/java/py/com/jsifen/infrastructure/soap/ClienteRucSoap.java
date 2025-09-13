@@ -1,30 +1,30 @@
 package py.com.jsifen.infrastructure.soap;
 
+import jakarta.inject.Inject;
+import py.com.jsifen.infrastructure.confg.Configuracion;
+import py.com.jsifen.infrastructure.sifen.ServerSifen;
+
+import java.io.IOException;
+
 public class ClienteRucSoap {
 
+    private String endpointUrl;
 
+    @Inject
+    private ServerSifen serverSifen;
 
+    @Inject
+    private Configuracion configuracion;
 
     public HttpResponse<String> ws_consulta_ruc( String ruc )
             throws IOException, InterruptedException, Exception {
 
-
-
+        String ambiente = configuracion.getAmbiente();
         this.endpointUrl = "/de/ws/consultas/consulta-ruc.wsdl";
-        this.endpointUrl = ServerSifen.getServer(this.configuracion.getAmbiente())
+        this.endpointUrl = serverSifen.getServer(ambiente)
                 + this.endpointUrl ;
 
-
-
-
-        String owner = "";
-        owner = this.configuracion.getOwner();
-
-
-        // 80033703
-
         String xmlId = SoapUtil.xmlId() ;
-
 
         String xmlRequest = """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -40,9 +40,6 @@ public class ClienteRucSoap {
             </soap:Body>
         </soap:Envelope>
         """.formatted(xmlId, ruc);
-
-
-
 
 
         // Load the client certificate from the keystore
