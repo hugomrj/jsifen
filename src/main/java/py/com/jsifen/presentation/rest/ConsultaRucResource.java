@@ -66,43 +66,5 @@ public class ConsultaRucResource {
     }
 
 
-    @POST
-    @Path("/test")
-    @Operation(summary = "Consulta RUC (Test)", description = "Consulta información de un RUC en ambiente de test")
-    public Response consultarRucTest(
-            @RequestBody(
-                    description = "JSON con el RUC a consultar",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(type = SchemaType.STRING),
-                            examples = @ExampleObject(
-                                    name = "Ejemplo RUC",
-                                    value = "{ \"ruc\": \"12345678\" }"
-                            )
-                    )
-            )
-            String json
-    ) {
-        try {
-
-            JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
-            String ruc = jsonObject.getString("ruc");
-
-            // Llama al service que devuelve un DTO
-            JsonObject json_response = consultaRucService.consultar("test", ruc);
-
-            return Response
-                    .status(Response.Status.OK)
-                    .entity(json_response)
-                    .build();
-
-        } catch (Exception e) {
-            // Cualquier error se devuelve como HTTP 500
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Error interno: " + e.getMessage())
-                    .build();
-        }
-    }
 
 }

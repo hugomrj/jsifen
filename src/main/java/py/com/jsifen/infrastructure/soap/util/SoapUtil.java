@@ -1,10 +1,27 @@
-package py.com.jsifen.infrastructure.soap;
+package py.com.jsifen.infrastructure.soap.util;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 
 public abstract class SoapUtil {
+
+    public static String xmlId () {
+
+        LocalDateTime startDateTime = LocalDateTime.of(2023, 6, 1, 0, 0, 0);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        long milliseconds = ChronoUnit.MILLIS.between(startDateTime, currentDateTime);
+
+        // Ajustar el valor para que esté en el rango de 1 a 999,999,999
+        milliseconds = milliseconds % 999_999_999 + 1;
+
+        String ret = String.valueOf(milliseconds);
+        return ret ;
+    }
+
+
+
+
 /*
     public static String convertXmlToJson(String xmlString) {
         JSONObject jsonObject = XML.toJSONObject(xmlString);
@@ -29,18 +46,7 @@ public abstract class SoapUtil {
     }
 */
 
-    public static String xmlId () {
 
-        LocalDateTime startDateTime = LocalDateTime.of(2023, 6, 1, 0, 0, 0);
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        long milliseconds = ChronoUnit.MILLIS.between(startDateTime, currentDateTime);
-
-        // Ajustar el valor para que esté en el rango de 1 a 999,999,999
-        milliseconds = milliseconds % 999_999_999 + 1;
-
-        String ret = String.valueOf(milliseconds);
-        return ret ;
-    }
 
 /*
 

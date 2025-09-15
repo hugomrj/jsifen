@@ -20,7 +20,10 @@ dependencies {
 
     // Para JSON
     implementation 'com.google.code.gson:gson:2.10.1' // Gson
-    implementation 'org.json:json:20230227' // JSON-javaen
+    implementation("io.quarkus:quarkus-rest-jsonb")
+
+
+    testImplementation("io.quarkus:quarkus-junit5")
 
 }
 
