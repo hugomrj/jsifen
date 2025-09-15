@@ -21,8 +21,11 @@ public class RucClient {
     @Inject
     private SSLConfig sslConfig;
 
+    /*
     @Inject
     private SifenConfig sifenConfig;
+    */
+
 
     @Inject
     private ServerSifen serverSifen;
@@ -73,7 +76,8 @@ public class RucClient {
     }
 
     private String buildEndpointUrl() {
-        String environment = sifenConfig.ambiente();
+        /*String environment = sifenConfig.ambiente();*/
+        String environment = "" ;
         String baseUrl = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
     }

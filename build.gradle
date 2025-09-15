@@ -37,7 +37,13 @@ java {
 
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
 }
+
+
+
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'

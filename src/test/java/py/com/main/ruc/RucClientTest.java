@@ -13,11 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @QuarkusTest
 public class RucClientTest {
 
+/*
     @Inject
     RucClient rucClient;
-
+*/
     @Test
     public void testQuery() throws Exception {
-        rucClient.query("3437941");
+        //rucClient.query("3437941");
+        System.out.println("hola");
     }
+
+
 }

@@ -10,8 +10,10 @@ import java.io.File;
 @ApplicationScoped
 public class SifenCertificateFile {
 
+    /*
     @Inject
     SifenConfig sifenConfig;
+*/
 
     private File p12File;
 
@@ -19,7 +21,9 @@ public class SifenCertificateFile {
     void init() {
         // La ruta proviene de sifen.path en sifen.properties
 
-        p12File = new File( sifenConfig.keystorePath() );
+        //p12File = new File( sifenConfig.keystorePath() );
+        p12File = new File( "" );
+
     }
 
     public File get() {

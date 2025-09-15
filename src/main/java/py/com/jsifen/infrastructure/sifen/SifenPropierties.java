@@ -1,17 +1,19 @@
-
+package py.com.jsifen.infrastructure.sifen;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class SifenConfigLoader {
+
+public class SifenPropierties {
 
     private static final String DEFAULT_PATH = "/sifen.properties";
     private final Properties properties = new Properties();
 
-    private static SifenConfigLoader instance;
+    // Instancia única (singleton) usando inicialización perezosa con bloque sincronizado
+    private static volatile SifenPropierties instance;
 
-    private SifenConfigLoader() {
+    private SifenPropierties() {
         try (InputStream in = getClass().getResourceAsStream(DEFAULT_PATH)) {
             if (in == null) {
                 throw new RuntimeException("No se pudo encontrar el archivo de configuración: " + DEFAULT_PATH);
@@ -22,10 +24,14 @@ public class SifenConfigLoader {
         }
     }
 
-    // Singleton global
-    public static synchronized SifenConfigLoader getInstance() {
-        if (instance == null) {
-            instance = new SifenConfigLoader();
+    // Devuelve la instancia única (thread-safe)
+    public static SifenPropierties getInstance() {
+        if (instance == null) {                // primer check
+            synchronized (SifenPropierties.class) {
+                if (instance == null) {        // segundo check dentro del synchronized
+                    instance = new SifenPropierties();
+                }
+            }
         }
         return instance;
     }
