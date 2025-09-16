@@ -3,6 +3,7 @@ package py.com.jsifen.infrastructure.soap.client;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.annotation.PostConstruct;
+import py.com.jsifen.infrastructure.sifen.SifenPropierties;
 import py.com.jsifen.infrastructure.soap.request.RucRequest;
 import py.com.jsifen.infrastructure.soap.config.SSLConfig;
 import py.com.jsifen.infrastructure.sifen.ServerSifen;
@@ -75,10 +76,13 @@ public class RucClient {
         }
     }
 
-    private String buildEndpointUrl() {
+    public String buildEndpointUrl() {
         /*String environment = sifenConfig.ambiente();*/
-        String environment = "" ;
+        String environment = SifenPropierties.getInstance().getAmbiente();
         String baseUrl = serverSifen.getServer(environment);
+
+        System.out.println(baseUrl);
+
         return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
     }
 
