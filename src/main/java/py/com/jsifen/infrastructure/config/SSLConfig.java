@@ -13,25 +13,14 @@ import javax.net.ssl.KeyManagerFactory;
 @ApplicationScoped
 public class SSLConfig {
 
-    private SifenPropierties sifenPropierties;
-
     public SSLContext createSSLContext() {
         try {
-            // ✅ Usar valores de la configuración general
 
-
-            /*
-            String keystorePath = sifenPropierties.keystorePath();
-            String keystorePassword = sifenPropierties.keystorePassword();
-            char[] passwordChars = keystorePassword.toCharArray();
-*/
-            String keystorePath = "";
-            char[] passwordChars = null;
-            String keystorePassword = "";
+            String keystorePath = SifenPropierties.getInstance().getKeystorePath();
+            String keystorePassword = SifenPropierties.getInstance().getKeystorePassword();
 
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream(keystorePath), passwordChars);
-
+            keyStore.load(new FileInputStream(keystorePath), keystorePassword.toCharArray());
 
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(
                     KeyManagerFactory.getDefaultAlgorithm());

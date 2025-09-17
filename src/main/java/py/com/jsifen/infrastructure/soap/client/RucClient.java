@@ -22,12 +22,6 @@ public class RucClient {
     @Inject
     private SSLConfig sslConfig;
 
-    /*
-    @Inject
-    private SifenConfig sifenConfig;
-    */
-
-
     @Inject
     private ServerSifen serverSifen;
 
@@ -40,7 +34,8 @@ public class RucClient {
                 .build();
     }
 
-    public HttpResponse<String> query(String ruc) {
+
+    public HttpResponse<String> consultaRUC(String ruc) {
         try {
             String endpointUrl = buildEndpointUrl();
             String xmlRequest = rucRequest.createQueryXml(ruc);
@@ -51,40 +46,19 @@ public class RucClient {
                     .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
                     .build();
 
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return httpClient.send(
+                    request, HttpResponse.BodyHandlers.ofString());
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to query RUC: " + e.getMessage(), e);
         }
     }
 
-    public HttpResponse<String> queryDetailed(String ruc, boolean includeDetails) {
-        try {
-            String endpointUrl = buildEndpointUrl();
-            String xmlRequest = rucRequest.createDetailedQueryXml(ruc, includeDetails);
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(endpointUrl))
-                    .header("Content-Type", "application/soap+xml;charset=UTF-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
-                    .build();
-
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to query RUC with details: " + e.getMessage(), e);
-        }
-    }
-
-    public String buildEndpointUrl() {
-        /*String environment = sifenConfig.ambiente();*/
+    private String buildEndpointUrl() {
         String environment = SifenPropierties.getInstance().getAmbiente();
         String baseUrl = serverSifen.getServer(environment);
-
-        System.out.println(baseUrl);
-
         return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
     }
-
 
 }
