@@ -13,52 +13,52 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 
-@ApplicationScoped
-public class RucClient {
+    @ApplicationScoped
+    public class RucClient {
 
-    @Inject
-    private RucRequest rucRequest;
+        @Inject
+        private RucRequest rucRequest;
 
-    @Inject
-    private SSLConfig sslConfig;
+        @Inject
+        private SSLConfig sslConfig;
 
-    @Inject
-    private ServerSifen serverSifen;
+        @Inject
+        private ServerSifen serverSifen;
 
-    private HttpClient httpClient;
+        private HttpClient httpClient;
 
-    @PostConstruct
-    void initialize() {
-        this.httpClient = HttpClient.newBuilder()
-                .sslContext(sslConfig.createSSLContext())
-                .build();
-    }
-
-
-    public HttpResponse<String> consultaRUC(String ruc) {
-        try {
-            String endpointUrl = buildEndpointUrl();
-            String xmlRequest = rucRequest.createQueryXml(ruc);
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(endpointUrl))
-                    .header("Content-Type", "application/soap+xml;charset=UTF-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
+        @PostConstruct
+        void initialize() {
+            this.httpClient = HttpClient.newBuilder()
+                    .sslContext(sslConfig.createSSLContext())
                     .build();
-
-            return httpClient.send(
-                    request, HttpResponse.BodyHandlers.ofString());
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to query RUC: " + e.getMessage(), e);
         }
+
+
+        public HttpResponse<String> consultaRUC(String ruc) {
+            try {
+                String endpointUrl = buildEndpointUrl();
+                String xmlRequest = rucRequest.createQueryXml(ruc);
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(endpointUrl))
+                        .header("Content-Type", "application/soap+xml;charset=UTF-8")
+                        .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
+                        .build();
+
+                return httpClient.send(
+                        request, HttpResponse.BodyHandlers.ofString());
+
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to query RUC: " + e.getMessage(), e);
+            }
+        }
+
+
+        private String buildEndpointUrl() {
+            String environment = SifenPropierties.getInstance().getAmbiente();
+            String baseUrl = serverSifen.getServer(environment);
+            return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
+        }
+
     }
-
-
-    private String buildEndpointUrl() {
-        String environment = SifenPropierties.getInstance().getAmbiente();
-        String baseUrl = serverSifen.getServer(environment);
-        return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
-    }
-
-}

@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
-    id 'application'   // permite usar gradlew run
+    id 'application'
 }
 
 repositories {
@@ -19,9 +19,8 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
 
     // Para JSON
-    implementation 'com.google.code.gson:gson:2.10.1' // Gson
     implementation("io.quarkus:quarkus-rest-jsonb")
-        implementation 'org.json:json:20240303'
+    implementation 'org.json:json:20240303'
 
 
     testImplementation("io.quarkus:quarkus-junit5")
@@ -61,20 +60,15 @@ quarkus {
 
 
 
-
 tasks.register('runMain', JavaExec) {
     description = 'Ejecuta cualquier clase main pasando el nombre como parámetro.'
+    group = 'application'
     classpath = sourceSets.main.runtimeClasspath
     if (project.hasProperty('mainClassName')) {
-        mainClass = project.property('mainClassName')
+        mainClass.set(project.property('mainClassName'))
+    } else {
+        logger.lifecycle("Usa -PmainClassName=paquete.Clase para indicar la clase a ejecutar")
     }
 }
 
 
-tasks.register('runTest', JavaExec) {
-    description = 'Ejecuta una clase con un método main desde el classpath de test.'
-    classpath = sourceSets.test.runtimeClasspath
-    if (project.hasProperty('mainClassName')) {
-        mainClass = project.property('mainClassName')
-    }
-}

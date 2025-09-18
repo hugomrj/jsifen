@@ -2,12 +2,19 @@ package py.com.jsifen.infrastructure.soap.util;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-
+/*
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+*/
 
 import org.json.JSONObject;
 import org.json.XML;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
+import java.io.StringReader;
 
 
 public abstract class SoapUtil {
@@ -33,17 +40,35 @@ public abstract class SoapUtil {
 
 
 
+
+
     public static String limpiarTexto(String texto) {
-        texto = texto.replace("ns2:", "");
-        texto = texto.replace("env:", "");
+        try {
+            // Limpiar namespaces
+            texto = texto.replace("ns2:", "").replace("env:", "");
 
-        String json = texto;
-        JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-        JsonObject bodyObject = jsonObject.getAsJsonObject("Envelope").getAsJsonObject("Body");
+            try (JsonReader reader = Json.createReader(new StringReader(texto))) {
+                JsonObject jsonObject = reader.readObject();
 
-        //return texto;
-        return bodyObject.toString();
+                // Validar que existe la estructura esperada
+                if (jsonObject.containsKey("Envelope")) {
+                    JsonObject envelope = jsonObject.getJsonObject("Envelope");
+                    if (envelope.containsKey("Body")) {
+                        JsonValue body = envelope.get("Body");
+                        return body.toString();
+                    }
+                }
+
+                // Si no encuentra la estructura, devolver el texto limpio
+                return texto;
+            }
+        } catch (Exception e) {
+            // En caso de error, devolver el texto original limpio
+            return texto.replace("ns2:", "").replace("env:", "");
+        }
     }
+
+
 
     public static String generateDv(String ruc) {
         int baseMax = 11, k = 2, total = 0;

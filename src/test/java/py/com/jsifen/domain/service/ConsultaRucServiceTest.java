@@ -14,7 +14,10 @@ public class ConsultaRucServiceTest {
 
     @Test
     public void testConsultarRucReal() {
-        String ruc = "3437941";
+
+        //String ruc = "3437941";
+        String ruc = "343794";
+        System.out.println(ruc);
 
         JsonObject resultado = consultaRucService.consultaRUC(ruc);
 
