@@ -1,9 +1,11 @@
 package py.com.jsifen.infrastructure.soap.request;
 
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import jakarta.inject.Inject;
+import py.com.jsifen.domain.service.ConsultaRucService;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

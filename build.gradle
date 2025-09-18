@@ -21,6 +21,7 @@ dependencies {
     // Para JSON
     implementation 'com.google.code.gson:gson:2.10.1' // Gson
     implementation("io.quarkus:quarkus-rest-jsonb")
+        implementation 'org.json:json:20240303'
 
 
     testImplementation("io.quarkus:quarkus-junit5")

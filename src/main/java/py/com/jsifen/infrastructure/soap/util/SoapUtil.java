@@ -3,6 +3,12 @@ package py.com.jsifen.infrastructure.soap.util;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+import org.json.XML;
+
 
 public abstract class SoapUtil {
 
@@ -19,15 +25,47 @@ public abstract class SoapUtil {
         return ret ;
     }
 
-
-
-
-/*
     public static String convertXmlToJson(String xmlString) {
         JSONObject jsonObject = XML.toJSONObject(xmlString);
         String jsonString = jsonObject.toString();
         return jsonString;
     }
+
+
+
+    public static String limpiarTexto(String texto) {
+        texto = texto.replace("ns2:", "");
+        texto = texto.replace("env:", "");
+
+        String json = texto;
+        JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
+        JsonObject bodyObject = jsonObject.getAsJsonObject("Envelope").getAsJsonObject("Body");
+
+        //return texto;
+        return bodyObject.toString();
+    }
+
+    public static String generateDv(String ruc) {
+        int baseMax = 11, k = 2, total = 0;
+
+        if (ruc.equals("88888801")) {
+            return "5";
+        }
+
+        for (int i = ruc.length() - 1; i >= 0; i--) {
+            k = k > baseMax ? 2 : k;
+            int n = Integer.parseInt(ruc.substring(i, i + 1));
+            total += n * k;
+            k++;
+        }
+        return String.valueOf((total % 11) > 1 ? 11 - (total % 11) : 0);
+    }
+
+
+
+
+
+/*
 
 
     public static String limpiarTexto(String texto) {

@@ -50,11 +50,12 @@ public class ConsultaRucResource {
             String ruc = jsonObject.getString("ruc");
 
             // Llama al service que devuelve un DTO
-            JsonObject json_response = consultaRucService.consultar( ruc );
+            JsonObject response = consultaRucService.consultaRUC( ruc );
+
 
             return Response
                     .status(Response.Status.OK)
-                    .entity(json_response)
+                    .entity(response)
                     .build();
 
         } catch (Exception e) {
