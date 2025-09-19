@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
     mavenLocal()
 }
-
+ 
 
 dependencies {
     implementation 'io.quarkus:quarkus-smallrye-openapi'
@@ -55,9 +55,23 @@ compileTestJava {
 
 
 quarkus {
-    // outputName = "jsifen-1.0.0-SNAPSHOT-runner"
+    // Versión nueva (recomendada):
+    // outputDirectory = layout.buildDirectory.dir('quarkus-app').get().asFile
 }
 
+
+
+
+tasks.register('copyConfig', Copy) {
+    from 'src/main/resources'
+    include 'application.properties', 'sifen.properties'
+    into layout.buildDirectory.dir("quarkus-app/config").get().asFile
+}
+//build.dependsOn 'copyConfig'
+// Asegurar que se ejecute después de la tarea build
+tasks.named('build') {
+    finalizedBy 'copyConfig'
+}
 
 
 tasks.register('runMain', JavaExec) {

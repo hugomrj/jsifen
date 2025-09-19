@@ -45,27 +45,38 @@ quarkus.http.port=8000
 ./gradlew quarkusDev
 ```
 
-**Modo producción**
+
+
+## Modo producción
+ Compilar y copiar los archivos de configuración
+
 ```bash
-# Empaquetar
 ./gradlew build
-
-# Ejecutar
-java -jar build/quarkus-app/quarkus-run.jar
 ```
+El compilado queda en:
 
-**Ejecutable nativo**
 ```bash
-# Compilar ejecutable nativo
-./gradlew build -Dquarkus.native.enabled=true
+# build/quarkus-app/
+# ├── quarkus-run.jar
+# └── config/
+#     ├── application.properties
+#     └── sifen.properties
+```
+Podés copiar toda la carpeta quarkus-app a la máquina destino,
+editar los archivos dentro de config/ y ejecutar:
 
-# Ejecutar
-./build/jsifen-1.0.0-SNAPSHOT-runner
+```bash
+# Ir a la carpeta del compilado (el nombre puede cambiar según el proyecto)
+cd <nombre-de-la-carpeta>
+```
+Ejecutar la aplicación tomando la configuración de config/:
+```bash
+# Ejecutar usando la carpeta config interna
+java -Dquarkus.config.locations=./config -jar quarkus-run.jar
 ```
 
----
+**Documentación de la API**
 
-**Documentación de la API**  
 Una vez ejecutada la aplicación, acceda a la documentación en:
 
 ```
@@ -95,7 +106,6 @@ Ejecute las pruebas con:
 El proyecto utiliza:
 
 * Quarkus 3.26.2 (Framework Java)
-* Gradle 9.0.0 (Gestión de dependencias)
 * SOAP Client (Comunicación con servicios SIFEN)
 * SSL Configuration (Manejo de certificados)
 
