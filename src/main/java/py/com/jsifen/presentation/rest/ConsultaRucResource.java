@@ -12,7 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import py.com.jsifen.domain.service.ConsultaRucService;
+import py.com.jsifen.domain.service.ruc.ConsultaRucService;
 
 import java.io.StringReader;
 

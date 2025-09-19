@@ -1,4 +1,4 @@
-package py.com.jsifen.domain.service;
+package py.com.jsifen.domain.service.ruc;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -6,7 +6,6 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
-import jakarta.ws.rs.core.Response;
 import org.json.JSONObject;
 import org.json.XML;
 import py.com.jsifen.infrastructure.soap.client.RucClient;
@@ -14,10 +13,7 @@ import py.com.jsifen.infrastructure.soap.util.SifenUtil;
 import py.com.jsifen.infrastructure.soap.util.SoapUtil;
 
 
-import java.io.StringReader;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @ApplicationScoped

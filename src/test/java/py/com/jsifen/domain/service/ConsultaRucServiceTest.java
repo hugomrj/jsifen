@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import jakarta.json.JsonObject;
+import py.com.jsifen.domain.service.ruc.ConsultaRucService;
 
 @QuarkusTest
 public class ConsultaRucServiceTest {
