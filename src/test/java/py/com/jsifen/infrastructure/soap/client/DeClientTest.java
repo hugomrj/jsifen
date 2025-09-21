@@ -1,5 +1,6 @@
 package py.com.jsifen.infrastructure.soap.client;
 
+
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
@@ -7,22 +8,20 @@ import org.junit.jupiter.api.Test;
 import java.net.http.HttpResponse;
 
 @QuarkusTest
-public class RucClientTest {
+public class DeClientTest {
 
     @Inject
-    RucClient rucClient;
+    DEClient deClient;
 
     @Test
-    public void testConsultaRUC() {
-        String ruc = "3437941";
-        HttpResponse<String> httpResponse = rucClient.consultaRUC(ruc);
+    public void testConsultaDE() {
+        // CDC de prueba
+        String cdc = "01800124162018001000043312025022119883154185";
+
+        HttpResponse<String> httpResponse = deClient.consultaDE(cdc);
 
         System.out.println("Código de estado: " + httpResponse.statusCode());
         System.out.println("Cuerpo de la respuesta:");
         System.out.println(httpResponse.body());
-
-
     }
-
-
 }

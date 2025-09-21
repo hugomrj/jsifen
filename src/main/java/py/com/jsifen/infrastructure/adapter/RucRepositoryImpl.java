@@ -1,4 +1,5 @@
-package py.com.jsifen.domain.service.ruc;
+package py.com.jsifen.infrastructure.adapter;
+
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,21 +9,21 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 import org.json.JSONObject;
 import org.json.XML;
+import py.com.jsifen.domain.repository.RucRepository;
 import py.com.jsifen.infrastructure.soap.client.RucClient;
-import py.com.jsifen.infrastructure.soap.util.SifenUtil;
-import py.com.jsifen.infrastructure.soap.util.SoapUtil;
-
+import py.com.jsifen.infrastructure.util.sifen.validation.SifenDvCalculator;
+import py.com.jsifen.infrastructure.util.soap.message.SoapBodyExtractor;
 
 import java.net.http.HttpResponse;
 
-
 @ApplicationScoped
-public class ConsultaRucService {
+public class RucRepositoryImpl implements RucRepository {
 
     @Inject
     RucClient rucClient;
 
-    public JsonObject consultaRUC(String ruc) {
+    @Override
+    public JsonObject buscarPorRuc(String ruc) {
         try {
             HttpResponse<String> httpResponse = rucClient.consultaRUC(ruc);
             int statusCode = httpResponse.statusCode();
@@ -30,7 +31,7 @@ public class ConsultaRucService {
             if (statusCode >= 200 && statusCode <= 299) {
                 String xmlOutput = httpResponse.body();
                 JSONObject jsonOrg = XML.toJSONObject(xmlOutput);
-                String jsonLimpio = SoapUtil.limpiarTexto(jsonOrg.toString());
+                String jsonLimpio = SoapBodyExtractor.extractBody(jsonOrg.toString());
                 jsonOrg = new JSONObject(jsonLimpio);
 
                 JSONObject rRes = jsonOrg.getJSONObject("rResEnviConsRUC");
@@ -40,12 +41,12 @@ public class ConsultaRucService {
                 JsonObjectBuilder responseBuilder = Json.createObjectBuilder()
                         .add("codigoRespuesta", dCodRes)
                         .add("mensajeRespuesta", dMsgRes)
-                        .add("statusCode", statusCode); // ← AGREGA AQUÍ
+                        .add("statusCode", statusCode);
 
                 if ("0502".equals(dCodRes) && "RUC encontrado".equals(dMsgRes) && rRes.has("xContRUC")) {
                     JSONObject xContRUC = rRes.getJSONObject("xContRUC");
                     String dRUCCons = xContRUC.get("dRUCCons").toString();
-                    String RUCdv = SifenUtil.generateDv(dRUCCons);
+                    String RUCdv = SifenDvCalculator.generateDv(dRUCCons);
 
                     JsonObjectBuilder datosRucBuilder = Json.createObjectBuilder()
                             .add("estado", xContRUC.getString("dDesEstCons"))
@@ -63,7 +64,7 @@ public class ConsultaRucService {
                     return Json.createObjectBuilder()
                             .add("error", "Respuesta inesperada: " + dMsgRes)
                             .add("codigo", dCodRes)
-                            .add("statusCode", statusCode) // ← También aquí
+                            .add("statusCode", statusCode)
                             .build();
                 }
 
@@ -72,7 +73,7 @@ public class ConsultaRucService {
             } else {
                 return Json.createObjectBuilder()
                         .add("error", "HTTP error: " + statusCode)
-                        .add("statusCode", statusCode) // ← Y aquí
+                        .add("statusCode", statusCode)
                         .build();
             }
 

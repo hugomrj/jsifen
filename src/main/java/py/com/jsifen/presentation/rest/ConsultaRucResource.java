@@ -12,20 +12,19 @@ import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import py.com.jsifen.domain.service.ruc.ConsultaRucService;
 
+import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
 import java.io.StringReader;
 
 
 @Path("/consulta/ruc")
-
 @Consumes("application/json")
 @Produces("application/json")
 @Tag(name = "Consulta RUC")  // nombre amigable en Swagger
 public class ConsultaRucResource {
 
     @Inject
-    ConsultaRucService consultaRucService;  // CDI se encarga de instanciarlo
+    ConsultarRucUseCase consultarRucUseCase;
 
     @POST
     @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
@@ -49,20 +48,20 @@ public class ConsultaRucResource {
             JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
             String ruc = jsonObject.getString("ruc");
 
-            // Llama al service que devuelve un DTO
-            JsonObject response = consultaRucService.consultaRUC( ruc );
+
+            JsonObject response = consultarRucUseCase.execute( ruc );
 
 
             return Response
-                    .status(Response.Status.OK)
-                    .entity(response)
-                    .build();
+                .status(Response.Status.OK)
+                .entity(response)
+                .build();
 
         } catch (Exception e) {
             // Cualquier error se devuelve como HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Error interno: " + e.getMessage())
-                    .build();
+                .entity("Error interno: " + e.getMessage())
+                .build();
         }
     }
 

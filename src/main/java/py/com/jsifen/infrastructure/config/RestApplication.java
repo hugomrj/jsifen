@@ -1,4 +1,4 @@
-package py.com.jsifen.infrastructure.rest;
+package py.com.jsifen.infrastructure.config;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

@@ -1,7 +1,6 @@
-package py.com.jsifen.infrastructure.soap.util;
+package py.com.jsifen.infrastructure.util.sifen.validation;
 
-public class SifenUtil {
-
+public abstract class SifenDvCalculator {
 
     public static String generateDv(String ruc) {
         int baseMax = 11, k = 2, total = 0;
@@ -18,8 +17,5 @@ public class SifenUtil {
         }
         return String.valueOf((total % 11) > 1 ? 11 - (total % 11) : 0);
     }
-
-
-
 
 }

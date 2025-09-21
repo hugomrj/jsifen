@@ -2,17 +2,23 @@
 
 Este proyecto proporciona una interfaz para consultas al sistema JSIFEN (Sistema de Facturación Electrónica de Paraguay) utilizando una arquitectura limpia y el framework Quarkus.
 
----
-
-**Estructura del Proyecto**  
-El proyecto sigue los principios de Clean Architecture:
-
+## Estructura del Proyecto
+La aplicación sigue **Clean Architecture**, lo que permite que el flujo sea claro:
 ```
 src/main/java/py/com/jsifen/
-├── domain/              # Lógica de negocio y entidades
-├── infrastructure/      # Implementaciones concretas (config, REST, SOAP)
-└── presentation/        # Controladores y endpoints REST
+│
+├── application/   # Casos de uso: coordinan la interacción entre capas
+├── domain/        # Modelo de negocio puro y contratos de repositorio
+├── infrastructure/# Implementación técnica: clientes SOAP, procesadores, utilidades y configuración
+└── presentation/  # Controladores REST que reciben peticiones y devuelven respuestas
 ```
+
+Flujo típico:
+1. **presentation** recibe la solicitud HTTP.
+2. Llama al caso de uso en **application**.
+3. El caso de uso usa entidades y repositorios de **domain**.
+4. **infrastructure** provee las implementaciones concretas (por ejemplo, llamadas a SIFEN).
+
 
 ---
 
