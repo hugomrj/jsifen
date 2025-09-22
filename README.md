@@ -61,7 +61,7 @@ quarkus.http.port=8000
 ```
 El compilado queda en:
 
-```bash
+```
 # build/quarkus-app/
 # ├── quarkus-run.jar
 # └── config/
@@ -85,7 +85,7 @@ java -Dquarkus.config.locations=./config -jar quarkus-run.jar
 
 Una vez ejecutada la aplicación, acceda a la documentación en:
 
-```
+```bash
 http://localhost:8000/doc/
 ```
 
@@ -105,24 +105,17 @@ Ejecute las pruebas con:
 ./gradlew test
 ```
 
----
-
-**Dependencias**
-
-El proyecto utiliza:
-
-* Quarkus 3.26.2 (Framework Java)
-* SOAP Client (Comunicación con servicios SIFEN)
-* SSL Configuration (Manejo de certificados)
-
----
 
 **Requisitos del Sistema**
 
 * **Java**: 17 o superior (se recomienda Java 21 LTS)
-* **Gradle**: 9.x
 * **OS**: Linux, macOS o Windows
 * **Certificado PKCS12**: requerido para la conexión con SIFEN
 * **Puerto disponible**: por defecto 8000
 
 ---
+
+
+## Licencia
+
+Este proyecto está bajo la [Licencia MIT](./LICENSE).

@@ -65,7 +65,6 @@ public class ConsultaDEResource {
             return Response
                 .status(Response.Status.OK)
                 .entity(xmlResponse)
-                .type("application/xml")
                 .build();
 
         } catch (Exception e) {
@@ -112,7 +111,12 @@ public class ConsultaDEResource {
             String cleanedXml = SifenResponseProcessor.cleanXmlForJson(xmlResponse);
             String jsonResponse = XmlJsonConverter.convertXmlToJson(cleanedXml);
 
-            return Response.ok(jsonResponse).build();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(jsonResponse)
+                    .build();
+
+
 
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

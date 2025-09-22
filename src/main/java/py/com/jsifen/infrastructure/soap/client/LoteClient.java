@@ -1,13 +1,12 @@
 package py.com.jsifen.infrastructure.soap.client;
 
-
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import py.com.jsifen.infrastructure.sifen.ServerSifen;
 import py.com.jsifen.infrastructure.sifen.SifenPropierties;
 import py.com.jsifen.infrastructure.soap.config.SSLConfig;
-import py.com.jsifen.infrastructure.soap.request.DERequest;
+import py.com.jsifen.infrastructure.soap.request.LoteRequest;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,10 +14,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @ApplicationScoped
-public class DEClient {
+public class LoteClient {
 
     @Inject
-    private DERequest deRequest;
+    private LoteRequest loteRequest;
 
     @Inject
     private SSLConfig sslConfig;
@@ -30,15 +29,16 @@ public class DEClient {
 
     @PostConstruct
     void initialize() {
-        httpClient = HttpClient.newBuilder()
+        this.httpClient = HttpClient.newBuilder()
                 .sslContext(sslConfig.createSSLContext())
                 .build();
     }
 
-    public HttpResponse<String> consultaDE(String cdc) {
+
+    public HttpResponse<String> consultaLote(String lote) {
         try {
             String endpointUrl = buildEndpointUrl();
-            String xmlRequest = deRequest.createQueryXml(cdc);
+            String xmlRequest = loteRequest.createQueryXml(lote);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(endpointUrl))
@@ -46,18 +46,20 @@ public class DEClient {
                     .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
                     .build();
 
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return httpClient.send(
+                    request, HttpResponse.BodyHandlers.ofString());
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to query DE: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to query Lote: " + e.getMessage(), e);
         }
     }
+
 
     private String buildEndpointUrl() {
         String environment = SifenPropierties.getInstance().getAmbiente();
         String baseUrl = serverSifen.getServer(environment);
-        String endpointUrl = "/de/ws/consultas/consulta.wsdl";
+        String endpointUrl = "/de/ws/consultas/consulta-lote.wsdl";
         return baseUrl + endpointUrl;
-
     }
+
 }

@@ -1,9 +1,14 @@
 package py.com.jsifen.presentation.rest;
 
+
 import jakarta.inject.Inject;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -12,32 +17,37 @@ import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import py.com.jsifen.application.usecase.lote.ConsultaLoteUseCase;
 
-import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
 import java.io.StringReader;
 
 
-@Path("/consulta/ruc")
+@Path("/consulta/lote")
 @Consumes("application/json")
 @Produces("application/json")
-@Tag(name = "Consulta RUC")  // nombre amigable en Swagger
-public class ConsultaRucResource {
+@Tag(name = "Consulta Lote")
+public class ConsultaLoteResource {
 
     @Inject
-    ConsultarRucUseCase consultarRucUseCase;
-
+    ConsultaLoteUseCase consultaLoteUseCase;
     @POST
-    @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
-    public Response consultarRuc(
+    @Operation(
+            summary = "Consulta por lote",
+            description = "Procesa la consulta de un lote de datos"
+    )
+    public Response consultarLote(
             @RequestBody(
-                    description = "JSON con el RUC a consultar",
+                    description = "JSON con el número de lote a consultar",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(type = SchemaType.STRING),
+                            schema = @Schema(
+                                    type = SchemaType.OBJECT,
+                                    requiredProperties = {"lote"}
+                            ),
                             examples = @ExampleObject(
-                                    name = "Ejemplo RUC",
-                                    value = "{ \"ruc\": \"12345678\" }"
+                                    name = "Ejemplo Lote",
+                                    value = "{ \"lote\": \"114383161976070806\" }"
                             )
                     )
             )
@@ -46,23 +56,20 @@ public class ConsultaRucResource {
         try {
 
             JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
-            String ruc = jsonObject.getString("ruc");
+            String lote = jsonObject.getString("lote");
 
-            JsonObject jsonResponse = consultarRucUseCase.execute( ruc );
+            JsonObject jsonResponse = consultaLoteUseCase.execute( lote );
 
             return Response
-                .status(Response.Status.OK)
-                .entity(jsonResponse)
-                .build();
+                    .status(Response.Status.OK)
+                    .entity(jsonResponse)
+                    .build();
+
 
         } catch (Exception e) {
-            // Cualquier error se devuelve como HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("Error interno: " + e.getMessage())
-                .build();
+                    .entity("Error interno: " + e.getMessage())
+                    .build();
         }
     }
-
-
-
 }
