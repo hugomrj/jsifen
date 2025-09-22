@@ -1,9 +1,8 @@
-package py.com.jsifen.presentation.rest;
+package py.com.jsifen.presentation.rest.consulta;
 
 
 import jakarta.inject.Inject;
 import jakarta.json.Json;
-import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;

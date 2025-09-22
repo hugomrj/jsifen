@@ -1,4 +1,4 @@
-package py.com.jsifen.presentation.rest;
+package py.com.jsifen.presentation.rest.consulta;
 
 
 import jakarta.inject.Inject;
@@ -18,7 +18,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import py.com.jsifen.application.usecase.de.ConsultarDEUseCase;
-import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
 import py.com.jsifen.infrastructure.soap.processor.SifenResponseProcessor;
 import py.com.jsifen.infrastructure.util.xml.XmlJsonConverter;
 

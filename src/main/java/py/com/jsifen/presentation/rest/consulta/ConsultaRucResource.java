@@ -1,4 +1,4 @@
-package py.com.jsifen.presentation.rest;
+package py.com.jsifen.presentation.rest.consulta;
 
 import jakarta.inject.Inject;
 import jakarta.json.Json;
