@@ -13,9 +13,32 @@ public class RecibirFacturaUseCase {
     @Inject
     FacturaRepository facturaRepository;
 
+
+
     public JsonObject execute(JsonObject facturaJson) throws Exception {
-        // aquí podrías validar o aplicar reglas de negocio antes/después
-        return facturaRepository.enviarFactura(facturaJson);
+        /*
+        // 1. Convertir JSON a XML
+        String xml = xmlGenerator.fromJson(facturaJson);
+
+        // 2. Firmar
+        String xmlFirmado = xmlSigner.sign(xml);
+
+        // 3. Enviar al servicio SOAP
+        String respuestaXml = soapClient.enviar(xmlFirmado);
+
+        // 4. Convertir respuesta a JSON
+        JsonObject respuestaJson = SoapUtil.convertXmlToJson(respuestaXml);
+
+        // 5. Guardar si corresponde
+        facturaRepository.guardar(respuestaJson);
+
+         */
+
+
+        JsonObject respuestaJson = facturaRepository.enviarFactura(facturaJson);
+
+        return respuestaJson;
+
     }
 
 
