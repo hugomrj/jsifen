@@ -1,17 +1,17 @@
 package py.com.jsifen.infrastructure.sifen;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+@ApplicationScoped
 public class SifenPropierties {
 
     private static final String DEFAULT_PATH = "/sifen.properties";
     private final Properties properties = new Properties();
 
-    // Instancia única (singleton) usando inicialización perezosa con bloque sincronizado
-    private static volatile SifenPropierties instance;
 
     private SifenPropierties() {
         try (InputStream in = getClass().getResourceAsStream(DEFAULT_PATH)) {
@@ -22,18 +22,6 @@ public class SifenPropierties {
         } catch (IOException e) {
             throw new RuntimeException("No se pudo cargar el archivo de configuración: " + DEFAULT_PATH, e);
         }
-    }
-
-    // Devuelve la instancia única (thread-safe)
-    public static SifenPropierties getInstance() {
-        if (instance == null) {                // primer check
-            synchronized (SifenPropierties.class) {
-                if (instance == null) {        // segundo check dentro del synchronized
-                    instance = new SifenPropierties();
-                }
-            }
-        }
-        return instance;
     }
 
     public String getKeystorePath() {

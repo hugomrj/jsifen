@@ -4,8 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import py.com.jsifen.domain.repository.FacturaRepository;
-import py.com.jsifen.domain.repository.RucRepository;
-import py.com.jsifen.infrastructure.sifen.xml.SifenFacturaXmlGenerator;
+import py.com.jsifen.domain.de.gen.SifenFacturaXmlGenerator;
 
 
 @ApplicationScoped
@@ -23,6 +22,8 @@ public class RecibirFacturaUseCase {
         System.out.println(" JsonObject execute(JsonObject facturaJson)");
         // 1. Convertir JSON a XML
         String xml = xmlGenerator.generar(facturaJson);
+
+
 /*
 
         // 2. Firmar

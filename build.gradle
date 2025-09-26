@@ -24,6 +24,7 @@ dependencies {
 
 
     testImplementation("io.quarkus:quarkus-junit5")
+    implementation 'commons-net:commons-net:3.9.0'
 
 }
 

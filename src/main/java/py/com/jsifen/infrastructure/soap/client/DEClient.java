@@ -26,6 +26,10 @@ public class DEClient {
     @Inject
     private ServerSifen serverSifen;
 
+    @Inject
+    SifenPropierties sifenPropierties;
+
+
     private HttpClient httpClient;
 
     @PostConstruct
@@ -54,7 +58,7 @@ public class DEClient {
     }
 
     private String buildEndpointUrl() {
-        String environment = SifenPropierties.getInstance().getAmbiente();
+        String environment = sifenPropierties.getAmbiente();
         String baseUrl = serverSifen.getServer(environment);
         String endpointUrl = "/de/ws/consultas/consulta.wsdl";
         return baseUrl + endpointUrl;

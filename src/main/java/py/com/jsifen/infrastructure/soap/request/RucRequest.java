@@ -3,6 +3,7 @@ package py.com.jsifen.infrastructure.soap.request;
 import jakarta.enterprise.context.ApplicationScoped;
 import py.com.jsifen.infrastructure.util.soap.message.SoapIdGenerator;
 
+
 @ApplicationScoped
 public class RucRequest {
 

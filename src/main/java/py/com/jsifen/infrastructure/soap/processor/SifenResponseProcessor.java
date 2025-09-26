@@ -1,5 +1,6 @@
 package py.com.jsifen.infrastructure.soap.processor;
 
+import py.com.jsifen.infrastructure.util.xml.StringUtils;
 import py.com.jsifen.infrastructure.util.xml.XmlJsonConverter;
 
 public final class SifenResponseProcessor {
@@ -13,7 +14,7 @@ public final class SifenResponseProcessor {
         // reemplazos simples
         output = output.replace("&lt;", "<");
         output = output.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
-        output = XmlJsonConverter.decodeEntities(output);
+        output = StringUtils.decodeEntities(output);
 
         // caso específico cuando SIFEN devuelve "CDC encontrado" -> extraer <DE>...</DE>
         if (output.contains("<ns2:dMsgRes>CDC encontrado</ns2:dMsgRes>")) {

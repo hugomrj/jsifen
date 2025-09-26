@@ -25,6 +25,9 @@ public class LoteClient {
     @Inject
     private ServerSifen serverSifen;
 
+    @Inject
+    SifenPropierties sifenPropierties;
+
     private HttpClient httpClient;
 
     @PostConstruct
@@ -56,7 +59,7 @@ public class LoteClient {
 
 
     private String buildEndpointUrl() {
-        String environment = SifenPropierties.getInstance().getAmbiente();
+        String environment = sifenPropierties.getAmbiente();
         String baseUrl = serverSifen.getServer(environment);
         String endpointUrl = "/de/ws/consultas/consulta-lote.wsdl";
         return baseUrl + endpointUrl;

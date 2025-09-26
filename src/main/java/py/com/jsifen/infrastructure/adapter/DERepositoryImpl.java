@@ -3,19 +3,9 @@ package py.com.jsifen.infrastructure.adapter;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonValue;
-import org.json.JSONObject;
-import org.json.XML;
 import py.com.jsifen.domain.repository.DERepository;
-import py.com.jsifen.domain.repository.RucRepository;
 import py.com.jsifen.infrastructure.soap.client.DEClient;
-import py.com.jsifen.infrastructure.soap.client.RucClient;
-import py.com.jsifen.infrastructure.util.sifen.validation.SifenDvCalculator;
-import py.com.jsifen.infrastructure.util.soap.message.SoapBodyExtractor;
-import py.com.jsifen.infrastructure.util.xml.XmlJsonConverter;
+import py.com.jsifen.infrastructure.util.xml.StringUtils;
 
 import java.net.http.HttpResponse;
 
@@ -34,7 +24,7 @@ public class DERepositoryImpl implements DERepository {
 
             // Decodifica
             xmlOutput = httpResponse.body().replaceAll("&lt;", "<");
-            xmlOutput = XmlJsonConverter.decodeEntities(xmlOutput);
+            xmlOutput = StringUtils.decodeEntities(xmlOutput);
 
             return xmlOutput;
 

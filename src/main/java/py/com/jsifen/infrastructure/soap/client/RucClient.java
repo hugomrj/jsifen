@@ -25,6 +25,10 @@ import java.net.URI;
         @Inject
         private ServerSifen serverSifen;
 
+        @Inject
+        SifenPropierties sifenPropierties;
+
+
         private HttpClient httpClient;
 
         @PostConstruct
@@ -56,7 +60,7 @@ import java.net.URI;
 
 
         private String buildEndpointUrl() {
-            String environment = SifenPropierties.getInstance().getAmbiente();
+            String environment = sifenPropierties.getAmbiente();
             String baseUrl = serverSifen.getServer(environment);
             return baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
         }
