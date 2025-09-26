@@ -16,18 +16,21 @@ public class RecibirFacturaUseCase {
     @Inject
     SifenFacturaXmlGenerator xmlGenerator;
 
-    public JsonObject execute(JsonObject facturaJson) throws Exception {
+    public JsonObject execute(JsonObject facturaInput) throws Exception {
 
 
         System.out.println(" JsonObject execute(JsonObject facturaJson)");
         // 1. Convertir JSON a XML
-        String xml = xmlGenerator.generar(facturaJson);
-
+        String xmlOuput = xmlGenerator.generar(facturaInput);
+        System.out.println(xmlOuput);
 
 /*
 
+
         // 2. Firmar
         String xmlFirmado = xmlSigner.sign(xml);
+
+
 
         // 3. Enviar al servicio SOAP
         String respuestaXml = soapClient.enviar(xmlFirmado);
@@ -41,7 +44,7 @@ public class RecibirFacturaUseCase {
          */
 
 
-        JsonObject respuestaJson = facturaRepository.enviarFactura(facturaJson);
+        JsonObject respuestaJson = facturaRepository.enviarFactura(facturaInput);
 
         return respuestaJson;
 

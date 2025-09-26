@@ -42,9 +42,7 @@ public final class CdcGenerator {
                 + StringUtils.leftPad(dCodSeg.trim(), '0', 9);
 
         // agrega el dígito verificador
-            return cdc + SifenDvCalculator.generateDv(cdc);
+        return cdc + SifenDvCalculator.generateDv(cdc);
     }
-
-
 
 }

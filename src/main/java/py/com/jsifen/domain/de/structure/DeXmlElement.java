@@ -13,8 +13,6 @@ public class DeXmlElement {
     private ArrayList<XmlAttribute> atributos = new ArrayList <XmlAttribute>() ;
     private String valor ;
 
-
-
     public DeXmlElement (String nombre){
         this.nombre = nombre;
     }

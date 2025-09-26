@@ -1,6 +1,8 @@
 package py.com.jsifen.domain.de.mapping;
 
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.RequestScoped;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -9,11 +11,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+@RequestScoped
 public class Serializacion {
 
     private ArrayList<FieldMapping> elementos = new ArrayList <FieldMapping>() ;
     private String path =  this.setResoursePath();
-    //private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     private String json ;
 
 
@@ -30,7 +32,6 @@ public class Serializacion {
 
 
     public void adaptador() {
-
         this.setResoursePath();
         File file = new File(this.path + "relacion" );
         if (file.exists()) {
@@ -138,11 +139,9 @@ public class Serializacion {
         this.elementos = elementos;
     }
 
-
     public String getCampoJson (String xml){
 
         String ret = "";
-
         ArrayList<FieldMapping> ele = this.getElementos();
         for (FieldMapping fm : ele) {
 
@@ -151,7 +150,6 @@ public class Serializacion {
                 break;
             }
         }
-
         return ret;
     }
 
@@ -178,9 +176,6 @@ public class Serializacion {
     public void setJson(String json) {
         this.json = json;
     }
-
-
-
 
 }
 

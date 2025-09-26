@@ -33,8 +33,25 @@ public class DeXmlBuilder {
     @Inject
     SifenPropierties sifenPropierties;
 
-    private DeXmlStructure estructura = new DeXmlStructure();
-    private DeComplemento complemento = new DeComplemento();
+    @Inject
+    DeComplemento complegen;
+
+    @Inject
+    Serializacion serializacion;
+
+    @Inject
+    DeXmlStructure xmlEstructura;
+
+
+    public SifenPropierties getSifenPropierties() { return sifenPropierties; }
+    public DeComplemento getComplegen() { return complegen; }
+    public Serializacion getSerializacion() { return serializacion; }
+    public DeXmlStructure getXmlEstructura() { return xmlEstructura; }
+
+
+
+    //private DeXmlStructure estructura = new DeXmlStructure();
+    //private DeComplemento complemento = new DeComplemento();
 
     //private Configuracion configuracion;
 
@@ -44,46 +61,45 @@ public class DeXmlBuilder {
             + "xsi:schemaLocation=\"https://ekuatia.set.gov.py/sifen/xsd "
             + "siRecepDE_v150.xsd\"";
     */
+
     private String declaracion = """
     xmlns="http://ekuatia.set.gov.py/sifen/xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://ekuatia.set.gov.py/sifen/xsd siRecepDE_v150.xsd"
     """;
 
-
-    private Serializacion serializacion = new Serializacion();
-
     private Node root_node;
+
 /*
     public DeXmlBuilder(Configuracion configuracion){
         this.configuracion = configuracion;
     }
 */
 
-    public String  generateXml (String json )  {
-        this.serializacion.setJson(json);
-
-     //   this.estructura.generar_esquema(this.serializacion, this.complemento);
-        this.estructura.generar_esquema(this.serializacion, null);
 
 
-        String ret = "";
-        ret = ret + "<"+this.estructura.root.getNombre()+" "
-                + this.declaracion + " >";
 
+    public String generateXml(String jsonInput) {
 
-        if (this.estructura.root.getHijos().size() > 0) {
-            for ( int i=0; i < this.estructura.root.getHijos().size() ; i++) {
+        serializacion.setJson(jsonInput);
 
-                ret =  ret +
-                        this.buildElementValue(this.estructura.root.getHijos().get(i));
+        DeXmlElement rootElement = xmlEstructura.generar_esquema();
+
+        String xmlOutput = "";
+        xmlOutput += "<" + rootElement.getNombre() + " " + this.declaracion + " >";
+
+        if (!rootElement.getHijos().isEmpty()) {
+            for (int i = 0; i < rootElement.getHijos().size(); i++) {
+                xmlOutput += this.buildElementValue(rootElement.getHijos().get(i));
             }
         }
 
-        ret = ret + "</"+this.estructura.root.getNombre()+">";
+        xmlOutput += "</" + rootElement.getNombre() + ">";
 
-        return ret ;
+        return xmlOutput;
     }
+
+
 
 
     public Node  signXml (String xml )  {
@@ -179,17 +195,15 @@ public class DeXmlBuilder {
     }
 
 
-
-
     public Node getRoot_node() {
         return root_node;
     }
 
-
+/*
     public void setComplemento(DeComplemento complemento) {
         this.complemento = complemento;
     }
-
+*/
 
 
 
@@ -368,11 +382,11 @@ public class DeXmlBuilder {
     }
 
 
-
+    /*
     public void setEstructura(DeXmlStructure estructura) {
         this.estructura = estructura;
     }
-
+*/
 
     public String getCDC (String xmlData ) {
 

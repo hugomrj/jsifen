@@ -1,6 +1,10 @@
 package py.com.jsifen.domain.de.structure;
 
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -10,13 +14,21 @@ import py.com.jsifen.domain.de.mapping.Serializacion;
 
 import java.io.StringReader;
 
+@ApplicationScoped
 public class DeXmlStructure {
 
-    public DeXmlElement root ;
+    @Inject
+    Provider<DeComplemento> providerComplemento;
+
+    @Inject
+    private Provider<Serializacion> serializacionProvider;
+
+    //public DeXmlElement root ;
 
 
-    public void generar_esquema (Serializacion serializacion,
-                                 DeComplemento complemento){
+    public DeXmlElement generar_esquema (){
+
+        Serializacion serializacion = serializacionProvider.get();
 
 
         // si se puede pòner aca el
@@ -25,17 +37,13 @@ public class DeXmlStructure {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         JsonObject jsonobject = new JsonObject();
         jsonobject = gson.fromJson(serializacion.getJson(), JsonObject.class);
-
          */
 
-
         JsonReader reader = Json.createReader(
-                new StringReader(serializacion.getJson())
+            new StringReader(serializacion.getJson())
         );
         JsonObject jsonobject = reader.readObject();
         //reader.close();      // cerrar explícitamente
-
-
 
         DeXmlElement rDE = new DeXmlElement("rDE");
 
@@ -43,7 +51,7 @@ public class DeXmlStructure {
 
         DeXmlElement DE = new DeXmlElement("DE");
         DE.getAtributos().add(new XmlAttribute("Id",
-                complemento.getId()));
+                providerComplemento.get().getId() ));
         rDE.getHijos().add(DE);
 
 
@@ -546,8 +554,7 @@ public class DeXmlStructure {
         gCamDEAsoc.hijos_add( serializacion, "dNumControl", jsonobject );
 
 
-        this.root = rDE;
-
+        return rDE;
     }
 
 }

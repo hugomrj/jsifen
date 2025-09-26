@@ -133,8 +133,6 @@ public class AsyncRecibeResource {
     ) {
         try {
             JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
-            // Procesar la factura con el caso de uso
-
 
             JsonObject jsonResponse = recibirFacturaUseCase.execute(jsonObject);
 

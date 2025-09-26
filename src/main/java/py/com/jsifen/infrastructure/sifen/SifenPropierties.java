@@ -13,7 +13,7 @@ public class SifenPropierties {
     private final Properties properties = new Properties();
 
 
-    private SifenPropierties() {
+    public SifenPropierties() {
         try (InputStream in = getClass().getResourceAsStream(DEFAULT_PATH)) {
             if (in == null) {
                 throw new RuntimeException("No se pudo encontrar el archivo de configuración: " + DEFAULT_PATH);
