@@ -1,6 +1,6 @@
-package py.com.jsifen.presentation.rest.consulta;
+package py.com.jsifen.presentation.rest.evento;
 
-import jakarta.inject.Inject;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
@@ -13,56 +13,52 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
 import java.io.StringReader;
 
-
-@Path("/consulta/ruc")
+@Path("/evento/cancelar")
 @Consumes("application/json")
 @Produces("application/json")
-@Tag(name = "Consulta RUC")  // nombre amigable en Swagger
-public class ConsultaRucResource {
-
+@Tag(name = "Evento Cancelar (en construccion)")
+public class EventoCancelarResource {
+/*
     @Inject
-    ConsultarRucUseCase consultarRucUseCase;
+    CancelarEventoUseCase cancelarEventoUseCase;
+
+ */
 
     @POST
-    @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
-    public Response consultarRuc(
+    @Operation(
+            summary = "Cancelar evento",
+            description = "Envía la cancelación de un evento vía SOAP y retorna la respuesta en JSON"
+    )
+    public Response cancelarEvento(
+            @HeaderParam("token") String token,
             @RequestBody(
-                    description = "JSON con el RUC a consultar",
+                    description = "Datos del evento a cancelar",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(type = SchemaType.STRING),
                             examples = @ExampleObject(
-                                    name = "Ejemplo RUC",
-                                    value = "{ \"ruc\": \"12345678\" }"
+                                    name = "Ejemplo",
+                                    value = "{ \"id\":\"123\", \"mOtEve\":\"motivo\" }"
                             )
                     )
             )
             String json
     ) {
         try {
-
             JsonObject body = Json.createReader(new StringReader(json)).readObject();
-            String ruc = body.getString("ruc");
+            String id     = body.getString("id");
+            String mOtEve = body.getString("mOtEve");
 
-            JsonObject jsonResponse = consultarRucUseCase.execute( ruc );
+            //JsonObject resp = cancelarEventoUseCase.execute(token, id, mOtEve);
 
-            return Response
-                .status(Response.Status.OK)
-                .entity(jsonResponse)
-                .build();
-
+            return Response.ok(null).build();
         } catch (Exception e) {
-            // Cualquier error se devuelve como HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("Error interno: " + e.getMessage())
-                .build();
+                    .entity("Error interno: " + e.getMessage())
+                    .build();
         }
     }
-
-
-
 }
