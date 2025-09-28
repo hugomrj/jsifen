@@ -82,23 +82,23 @@ public class ConsultaDEResource {
     @Path("/json")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
-            summary = "Consulta Documento Electrónico (JSON)",
-            description = "Consulta un documento electrónico por CDC (Código de Control) y retorna JSON"
+        summary = "Consulta Documento Electrónico (JSON)",
+        description = "Consulta un documento electrónico por CDC (Código de Control) y retorna JSON"
     )
     public Response consultaDEjson(
-            @RequestBody(
-                    description = "JSON con el CDC del documento a consultar",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(type = SchemaType.STRING),
-                            examples = @ExampleObject(
-                                    name = "Ejemplo CDC",
-                                    value = "{\"cdc\": \"12345678901234567890123456789012345678901234\"}"
-                            )
-                    )
+        @RequestBody(
+            description = "JSON con el CDC del documento a consultar",
+            required = true,
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(type = SchemaType.STRING),
+                examples = @ExampleObject(
+                    name = "Ejemplo CDC",
+                    value = "{\"cdc\": \"12345678901234567890123456789012345678901234\"}"
+                )
             )
-            String json
+        )
+        String json
     ){
         try {
             JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
@@ -111,18 +111,16 @@ public class ConsultaDEResource {
             String jsonResponse = XmlJsonConverter.convertXmlToJson(cleanedXml);
 
             return Response
-                    .status(Response.Status.OK)
-                    .entity(jsonResponse)
-                    .build();
-
-
+                .status(Response.Status.OK)
+                .entity(jsonResponse)
+                .build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Json.createObjectBuilder()
-                            .add("error", e.getMessage())
-                            .build())
-                    .build();
+                .entity(Json.createObjectBuilder()
+                    .add("error", e.getMessage())
+                        .build())
+                .build();
         }
     }
 

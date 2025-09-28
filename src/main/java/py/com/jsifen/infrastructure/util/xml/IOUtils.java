@@ -35,6 +35,7 @@ public final class IOUtils {
     }
 
     public static byte[] compressXmlToZip(String xml) throws IOException {
+        
         String fileName = "DE_" + new SimpleDateFormat("ddMMyyyy").format(new Date());
         File zip = File.createTempFile(fileName, ".zip");
         try (ZipOutputStream out = new ZipOutputStream(Files.newOutputStream(zip.toPath()))) {

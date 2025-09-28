@@ -3,6 +3,7 @@ package py.com.jsifen.domain.de.gen;
 import jakarta.enterprise.context.RequestScoped;
 import org.json.JSONObject;
 import py.com.jsifen.infrastructure.time.ClienteNTP;
+import py.com.jsifen.infrastructure.util.sifen.validation.SifenDvCalculator;
 
 
 @RequestScoped
@@ -10,7 +11,6 @@ public class DeComplemento {
 
     private String Id;
     private String dDVId;
-    private String cachedJson;
 
     public String getId() {
         return Id;
@@ -20,14 +20,11 @@ public class DeComplemento {
         return dDVId;
     }
 
-    public String getJsonCom(String jsonEntrada) {
-        if (cachedJson != null) {
-            return cachedJson; // reutiliza
-        }
+    public String getJsonCom(String jsonEntrada, String cdc) {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("dVerFor", 150);
-        jsonObject.put("dDVId", this.dDVId);
+        jsonObject.put("dDVId", cdc.substring(cdc.length() - 1) );
 
         JSONObject jsonParametro = new JSONObject(jsonEntrada);
 
@@ -39,13 +36,8 @@ public class DeComplemento {
 
         jsonObject.put("dSisFact", 1);
 
-        // guarda en el atributo para no regenerar
-        this.cachedJson = jsonObject.toString();
-        return this.cachedJson;
+        return jsonObject.toString();
     }
 
-    /** Permite obtener el objeto JSONObject ya generado, si lo necesitás */
-    public String getCachedJson() {
-        return cachedJson;
-    }
+
 }

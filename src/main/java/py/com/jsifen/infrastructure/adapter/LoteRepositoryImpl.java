@@ -25,7 +25,7 @@ public class LoteRepositoryImpl implements LoteRepository {
     LoteClient loteClient;
 
     @Override
-    public JsonObject buscarPorLote(String lote) {
+    public JsonObject buscarPorLote (String lote) {
         try {
 
             HttpResponse<String> httpResponse = loteClient.consultaLote(lote);
@@ -37,7 +37,6 @@ public class LoteRepositoryImpl implements LoteRepository {
                     new StringReader(json.toString())).readObject();
 
             return jakartaJson;
-
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import py.com.jsifen.infrastructure.util.soap.message.SoapIdGenerator;
 
 @ApplicationScoped
-public class LoteRequest {
+public class LoteConsultaRequest {
 
     public String createQueryXml(String lote) {
 

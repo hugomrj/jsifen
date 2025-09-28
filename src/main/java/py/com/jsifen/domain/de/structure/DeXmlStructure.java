@@ -18,26 +18,11 @@ import java.io.StringReader;
 public class DeXmlStructure {
 
     @Inject
-    Provider<DeComplemento> providerComplemento;
-
-    @Inject
     private Provider<Serializacion> serializacionProvider;
 
-    //public DeXmlElement root ;
-
-
-    public DeXmlElement generar_esquema (){
+    public DeXmlElement generar_esquema (String cdc){
 
         Serializacion serializacion = serializacionProvider.get();
-
-
-        // si se puede pòner aca el
-        // json del campo
-        /*
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        JsonObject jsonobject = new JsonObject();
-        jsonobject = gson.fromJson(serializacion.getJson(), JsonObject.class);
-         */
 
         JsonReader reader = Json.createReader(
             new StringReader(serializacion.getJson())
@@ -50,10 +35,8 @@ public class DeXmlStructure {
         rDE.getHijos().add(new DeXmlElement("dVerFor", serializacion, null ) );
 
         DeXmlElement DE = new DeXmlElement("DE");
-        DE.getAtributos().add(new XmlAttribute("Id",
-                providerComplemento.get().getId() ));
+        DE.getAtributos().add(new XmlAttribute("Id", cdc ));
         rDE.getHijos().add(DE);
-
 
         DE.getHijos().add(new DeXmlElement("dDVId", serializacion, null ) );
         DE.getHijos().add(new DeXmlElement("dFecFirma" , serializacion, null));

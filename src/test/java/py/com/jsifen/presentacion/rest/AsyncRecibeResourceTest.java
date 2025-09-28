@@ -10,7 +10,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import py.com.jsifen.application.usecase.de.ConsultarDEUseCase;
 import py.com.jsifen.application.usecase.factura.RecibirFacturaUseCase;
+import py.com.jsifen.infrastructure.soap.processor.SifenResponseProcessor;
 import py.com.jsifen.infrastructure.util.sifen.xml.DeXmlBuilder;
+import py.com.jsifen.infrastructure.util.xml.XmlJsonConverter;
 
 import java.io.StringReader;
 import java.lang.reflect.Field;
@@ -31,9 +33,9 @@ public class AsyncRecibeResourceTest {
             "dNumTim":16693341,
             "dEst":"001",
             "dPunExp":"002",
-            "dNumDoc":"0000073",
+            "dNumDoc":"0000090",
             "dFeIniT":"2023-09-25",
-            "dFeEmiDE":"2024-02-23T09:01:28",
+            "dFeEmiDE":"2025-09-26T09:01:28",
             "iTipTra":1,
             "dDesTipTra":"Venta de mercadería",
             "iTImp":1,
@@ -128,6 +130,8 @@ public class AsyncRecibeResourceTest {
         JsonObject jsonObject = Json.createReader(new StringReader(FACTURA_JSON))
                 .readObject();
         JsonObject jsonResponse = recibirFacturaUseCase.execute(jsonObject);
+
+
     }
 
 

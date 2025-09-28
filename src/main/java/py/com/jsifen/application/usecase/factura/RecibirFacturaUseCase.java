@@ -3,8 +3,12 @@ package py.com.jsifen.application.usecase.factura;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
+import org.w3c.dom.Node;
 import py.com.jsifen.domain.repository.FacturaRepository;
 import py.com.jsifen.domain.de.gen.SifenFacturaXmlGenerator;
+import py.com.jsifen.infrastructure.util.sifen.xml.FileXML;
+import py.com.jsifen.infrastructure.util.sifen.xml.QrNodeBuilder;
+import py.com.jsifen.infrastructure.util.sifen.xml.SifenXmlSigner;
 
 
 @ApplicationScoped
@@ -16,36 +20,30 @@ public class RecibirFacturaUseCase {
     @Inject
     SifenFacturaXmlGenerator xmlGenerator;
 
+    @Inject
+    SifenXmlSigner xmlSigner;
+
+    @Inject
+    QrNodeBuilder qrNodeBuilder;
+
     public JsonObject execute(JsonObject facturaInput) throws Exception {
 
-
-        System.out.println(" JsonObject execute(JsonObject facturaJson)");
         // 1. Convertir JSON a XML
-        String xmlOuput = xmlGenerator.generar(facturaInput);
-        System.out.println(xmlOuput);
+        String xmlGenerado = xmlGenerator.generar(facturaInput);
 
-/*
+        // 2. Firmar (devuelve DOM firmado)
+        Node nodoFirmado = xmlSigner.signXml(xmlGenerado);
 
+        // 3. Agregar QR al DOM firmado
+        Node nodoConQR = qrNodeBuilder.addQrNode(nodoFirmado);
 
-        // 2. Firmar
-        String xmlFirmado = xmlSigner.sign(xml);
+        // 4. Pasar el DOM final a String
+        String xmlFinal = FileXML.xmltoString(nodoConQR);
 
+        // 5. Enviar y obtener respuesta
+        JsonObject respuestaJson = facturaRepository.enviarFactura(xmlFinal);
 
-
-        // 3. Enviar al servicio SOAP
-        String respuestaXml = soapClient.enviar(xmlFirmado);
-
-        // 4. Convertir respuesta a JSON
-        JsonObject respuestaJson = SoapUtil.convertXmlToJson(respuestaXml);
-
-        // 5. Guardar si corresponde
-        facturaRepository.guardar(respuestaJson);
-
-         */
-
-
-        JsonObject respuestaJson = facturaRepository.enviarFactura(facturaInput);
-
+        //JsonObject respuestaJson = null;
         return respuestaJson;
 
     }

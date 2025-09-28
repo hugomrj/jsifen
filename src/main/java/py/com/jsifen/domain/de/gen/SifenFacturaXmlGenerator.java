@@ -9,6 +9,8 @@ import jakarta.json.JsonObject;
 import py.com.jsifen.infrastructure.sifen.SifenPropierties;
 import py.com.jsifen.infrastructure.util.sifen.xml.DeXmlBuilder;
 
+import java.util.stream.DoubleStream;
+
 @RequestScoped
 public class SifenFacturaXmlGenerator {
 /*
@@ -29,24 +31,13 @@ public class SifenFacturaXmlGenerator {
 
         String cdc = CdcGenerator.obtenerCDC(json);
 
-        String jsonCom = complegen.getJsonCom(json);
-
-        //DeXmlBuilder factura = new DeXmlBuilder();
-        //deXmlBuilder.setComplemento(complegen);
+        String jsonCom = complegen.getJsonCom(json, cdc);
 
         jsonAll = jsonCom.substring(0, jsonCom.length() - 1) + ", "
                 + json.substring(1, json.length());
 
-        String xmlString = deXmlBuilderProvider.get().generateXml(jsonAll);
+        String xmlString = deXmlBuilderProvider.get().generateXml(jsonAll, cdc);
         //DeXmlBuilder builder = deXmlBuilderProvider.get();
-
-
-        // Imprimir en consola
-        System.out.println("CDC: " + cdc);
-        //System.out.println("Complemento: " + jsonCom);
-        System.out.println("All: " + jsonAll);
-
-
 
         return xmlString;
     }

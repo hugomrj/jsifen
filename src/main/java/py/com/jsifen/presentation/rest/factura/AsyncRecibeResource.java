@@ -51,79 +51,98 @@ public class AsyncRecibeResource {
                                     name = "Ejemplo Factura",
                                     value = """
 {
-  "iTipEmi": 2,
-  "dDesTipEmi": "Contingencia",
-  "dCodSeg": "853920147",
+  "iTipEmi": 1,
+  "dDesTipEmi": "Normal",
+  "dCodSeg": "572819034",
   "iTiDE": 1,
   "dDesTiDE": "Factura electrónica",
-  "dNumTim": "99887755",
-  "dEst": "002",
-  "dPunExp": "005",
-  "dNumDoc": "0000456",
-  "dFeIniT": "2024-05-10",
-  "dFeEmiDE": "2024-11-15T14:25:33",
-  "iTipTra": "2",
+  "dNumTim": 77441122,
+  "dEst": "003",
+  "dPunExp": "004",
+  "dNumDoc": "0000789",
+  "dFeIniT": "2024-07-15",
+  "dFeEmiDE": "2025-09-27T16:45:10",
+  "iTipTra": 2,
   "dDesTipTra": "Prestación de servicios",
-  "iTImp": "1",
+  "iTImp": 1,
   "dDesTImp": "IVA",
   "cMoneOpe": "PYG",
   "dDesMoneOpe": "Guarani",
-  "dRucEm": "9081723",
-  "dDVEmi": "3",
-  "iTipCont": "2",
-  "dNomEmi": "TECNOFUTURO S.A.",
-  "dDirEmi": "AV. SOL NACIENTE 1200 C/ AURORA",
-  "dNumCas": "1200",
-  "cDepEmi": "07",
-  "dDesDepEmi": "ALTO PARANÁ",
-  "cDisEmi": "075",
-  "dDesDisEmi": "CIUDAD DEL ESTE",
-  "cCiuEmi": "4120",
-  "dDesCiuEmi": "KM 7",
-  "dTelEmi": "0971123456",
-  "dEmailE": "contacto@tecnofuturo.com",
-  "cActEco": "62010",
-  "dDesActEco": "DESARROLLO DE SOFTWARE A MEDIDA",
-  "iNatRec": "1",
-  "iTiOpe": "1",
+  "dRucEm": 4839205,
+  "dDVEmi": 4,
+  "iTipCont": 2,
+  "dNomEmi": "SERVITEC S.R.L.",
+  "dNomFanEmi": "SERVITEC EXPRESS",
+  "dDirEmi": "AV. CENTRAL KM 5",
+  "dNumCas": 150,
+  "cDepEmi": 11,
+  "dDesDepEmi": "CENTRAL",
+  "cDisEmi": 102,
+  "dDesDisEmi": "LUQUE",
+  "cCiuEmi": 5500,
+  "dDesCiuEmi": "ZONA NORTE",
+  "dTelEmi": "0982123456",
+  "dEmailE": "info@servitec.com.py",
+  "cActEco": 70200,
+  "dDesActEco": "SERVICIOS DE REPARACIÓN Y MANTENIMIENTO",
+  "iNatRec": 2,
+  "iTiOpe": 1,
   "cPaisRec": "PRY",
   "dDesPaisRe": "Paraguay",
   "iTipIDRec": "1",
   "dDTipIDRec": "Cédula paraguaya",
-  "dNumIDRec": 90123456,
-  "dNomRec": "INVERSIONES DEL SOL S.R.L.",
-  "dRucRec": "90123456",
-  "dDVRec": 2,
+  "dNumIDRec": "45678901",
+  "dNomRec": "COMERCIAL EL PUENTE S.A.",
   "iIndPres": 1,
   "dDesIndPres": "Operación presencial",
-  "iCondOpe": "2",
+  "iCondOpe": 2,
   "dDCondOpe": "Crédito",
   "iTiPago": 2,
   "dDesTiPag": "Transferencia bancaria",
-  "dMonTiPag": 350000,
+  "dMonTiPag": "250000.0",
   "cMoneTiPag": "PYG",
   "dDMoneTiPag": "Guarani",
+  "dSubExe": "0.0",
+  "dSubExo": "0.0",
+  "dSub5": "0.0",
+  "dSub10": "250000.0",
+  "dTotOpe": "250000.0",
+  "dTotDesc": 0,
+  "dTotDescGlotem": 0,
+  "dTotAntItem": 0,
+  "dTotAnt": 0,
+  "dPorcDescTotal": 0,
+  "dDescTotal": 0,
+  "dAnticipo": 0,
+  "dRedon": 0,
+  "dTotGralOpe": "250000.0",
+  "dIVA5": 0,
+  "dIVA10": 22727,
+  "dLiqTotIVA5": 0,
+  "dLiqTotIVA10": 0,
+  "dTotIVA": 22727,
+  "dBaseGrav5": 0,
+  "dBaseGrav10": 227273,
+  "dTBasGraIVA": 227273,
   "Detalles": [
     {
-      "dCodInt": "S-2.3-4501",
-      "dDesProSer": "SERVICIO DE MANTENIMIENTO DE SISTEMAS",
-      "cUniMed": 99,
-      "dDesUniMed": "servicio",
-      "dCantProSer": 1,
-      "dPUniProSer": 350000,
-      "dTotBruOpeItem": 350000,
-      "dTotOpeItem": 350000,
-      "iAfecIVA": 1,
+      "dCodInt": "A-991",
+      "dDesProSer": "SERVICIO DE CONSULTORÍA TÉCNICA",
+      "cUniMed": "77",
+      "dDesUniMed": "UNI",
+      "dCantProSer": "1.0",
+      "dPUniProSer": "250000.0",
+      "dTotBruOpeItem": "250000.0",
+      "dTotOpeItem": "250000.0",
+      "iAfecIVA": "1",
       "dDesAfecIVA": "Gravado IVA",
-      "dPropIVA": 100,
-      "dTasaIVA": 10,
-      "dBasGravIVA": 318181,
-      "dLiqIVAItem": 31818,
-      "dBasExe": 0
+      "dPropIVA": "100",
+      "dTasaIVA": "10",
+      "dBasGravIVA": "227273",
+      "dLiqIVAItem": "22727",
+      "dBasExe": "0"
     }
-  ],
-  "dTotOpe": 350000,
-  "dTotIVA": 31818
+  ]
 }
 """
                             )
@@ -132,15 +151,16 @@ public class AsyncRecibeResource {
             String json
     ) {
         try {
-            JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
 
+            JsonObject jsonObject = Json.createReader(new StringReader(json))
+                    .readObject();
             JsonObject jsonResponse = recibirFacturaUseCase.execute(jsonObject);
 
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(jsonResponse)
+                    .build();
 
-            //JsonObject resultado = procesarFacturaUseCase.execute(factura);
-
-            //return Response.status(Response.Status.OK).entity(resultado).build();
-            return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error interno: " + e.getMessage())

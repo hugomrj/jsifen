@@ -4,6 +4,7 @@ package py.com.jsifen.infrastructure.util;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+import py.com.jsifen.domain.de.gen.CdcGenerator;
 import py.com.jsifen.infrastructure.util.sifen.xml.DeXmlBuilder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ public class DeXmlBuilderTest {
 
 
     @Test
-    void generateXml_devuelveXmlValido() {
+    void generateXml_devuelveXmlValido() throws Exception {
         String json = """
 {"dSisFact":1,"dFecFirma":"2025-09-26T11:41:27","dVerFor":150,
  "iTipEmi":1,"dDesTipEmi":"Normal","dCodSeg":"106381931","iTiDE":1,
@@ -62,7 +63,9 @@ public class DeXmlBuilderTest {
  "dBasGravIVA":"909","dLiqIVAItem":"91","dBasExe":"0"}]}
 """;
 
-        String xml = builder.generateXml(json);
+        String cdc = CdcGenerator.obtenerCDC(json);
+
+        String xml = builder.generateXml(json, cdc);
 
         assertNotNull(xml, "El XML no debe ser nulo");
         assertFalse(xml.isBlank(), "El XML no debe estar vacío");

@@ -41,7 +41,7 @@ public class DEClient {
 
     public HttpResponse<String> consultaDE(String cdc) {
         try {
-            String endpointUrl = buildEndpointUrl();
+            String endpointUrl = buildConsultaUrl();
             String xmlRequest = deRequest.createQueryXml(cdc);
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -57,11 +57,17 @@ public class DEClient {
         }
     }
 
-    private String buildEndpointUrl() {
-        String environment = sifenPropierties.getAmbiente();
-        String baseUrl = serverSifen.getServer(environment);
-        String endpointUrl = "/de/ws/consultas/consulta.wsdl";
-        return baseUrl + endpointUrl;
 
+
+    private String buildConsultaUrl() {
+        String base = serverSifen.getServer(sifenPropierties.getAmbiente());
+        return base + "/de/ws/consultas/consulta.wsdl";
     }
+
+    private String buildRecepcionUrl() {
+        String base = serverSifen.getServer(sifenPropierties.getAmbiente());
+        return base + "/de/ws/async/recibe-lote.wsdl";
+    }
+
+
 }
