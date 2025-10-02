@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
-
 @ApplicationScoped
 public class SifenPropierties {
 
@@ -44,6 +43,7 @@ public class SifenPropierties {
         }
 
     }
+
 
     public String getKeystorePath() { return properties.getProperty("sifen.keystore.path"); }
     public String getKeystorePassword() { return properties.getProperty("sifen.keystore.password"); }

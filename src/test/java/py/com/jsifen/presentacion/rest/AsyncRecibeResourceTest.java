@@ -131,6 +131,8 @@ public class AsyncRecibeResourceTest {
                 .readObject();
         JsonObject jsonResponse = recibirFacturaUseCase.execute(jsonObject);
 
+        System.out.println(jsonResponse );
+
 
     }
 
