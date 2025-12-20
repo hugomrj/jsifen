@@ -1,26 +1,21 @@
 package py.com.jsifen.presentation.rest.consulta;
 
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
-import java.io.StringReader;
+import py.com.jsifen.presentation.rest.consulta.dto.request.ConsultaRucRequest;
+import py.com.jsifen.presentation.rest.consulta.dto.response.ConsultarRucResult;
 
 
 @Path("/consulta/ruc")
 @Consumes("application/json")
 @Produces("application/json")
-@Tag(name = "Consulta RUC")  // nombre amigable en Swagger
+@Tag(name = "Consulta RUC")
 public class ConsultaRucResource {
 
     @Inject
@@ -28,31 +23,13 @@ public class ConsultaRucResource {
 
     @POST
     @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
-    public Response consultarRuc(
-            @RequestBody(
-                    description = "JSON con el RUC a consultar",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(type = SchemaType.STRING),
-                            examples = @ExampleObject(
-                                    name = "Ejemplo RUC",
-                                    value = "{ \"ruc\": \"12345678\" }"
-                            )
-                    )
-            )
-            String json
-    ) {
+    public Response consultarRuc(ConsultaRucRequest request)  {
         try {
-
-            JsonObject body = Json.createReader(new StringReader(json)).readObject();
-            String ruc = body.getString("ruc");
-
-            JsonObject jsonResponse = consultarRucUseCase.execute( ruc );
+            ConsultarRucResult response = consultarRucUseCase.execute(request.getRuc());
 
             return Response
                 .status(Response.Status.OK)
-                .entity(jsonResponse)
+                .entity(response)
                 .build();
 
         } catch (Exception e) {
