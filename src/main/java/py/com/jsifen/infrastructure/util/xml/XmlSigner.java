@@ -3,7 +3,7 @@ package py.com.jsifen.infrastructure.util.xml;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.w3c.dom.Node;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
+import py.com.jsifen.infrastructure.sifen.SifenProperties;
 
 import javax.xml.crypto.*;
 import javax.xml.crypto.dsig.*;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class XmlSigner {
 
     @Inject
-    SifenPropierties sifenProperties;
+    SifenProperties sifenProperties;
 
     public Node sign(Node parentNode,
                      String signedNodeId,

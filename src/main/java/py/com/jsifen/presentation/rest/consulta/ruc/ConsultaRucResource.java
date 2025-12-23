@@ -1,15 +1,14 @@
-package py.com.jsifen.presentation.rest.consulta;
+package py.com.jsifen.presentation.rest.consulta.ruc;
 
 import jakarta.inject.Inject;
-import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import py.com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
-import py.com.jsifen.presentation.rest.consulta.dto.request.ConsultaRucRequest;
-import py.com.jsifen.presentation.rest.consulta.dto.response.ConsultarRucResult;
+import py.com.jsifen.presentation.rest.consulta.ruc.dto.request.ConsultaRucRequest;
+import py.com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResult;
 
 
 @Path("/consulta/ruc")

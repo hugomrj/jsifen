@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
+import py.com.jsifen.infrastructure.sifen.SifenProperties;
 import py.com.jsifen.infrastructure.util.xml.HashUtils;
 import py.com.jsifen.infrastructure.util.xml.IOUtils;
 
@@ -22,7 +22,7 @@ import static io.quarkus.arc.ComponentsProvider.LOG;
 public class QrNodeBuilder {
 
     @Inject
-    SifenPropierties sifenPropierties;
+    SifenProperties sifenProperties;
 
     public Node addQrNode(Node node ) {
 
@@ -101,11 +101,11 @@ public class QrNodeBuilder {
         byte[] digestValueBytes = digestValue.getBytes(StandardCharsets.UTF_8);
         queryParams.put("DigestValue", HashUtils.bytesToHex(digestValueBytes));
 
-        queryParams.put("IdCSC", sifenPropierties.getIdCsc());
+        queryParams.put("IdCSC", sifenProperties.getIdCsc());
 
         String urlParams = IOUtils.buildUrlParams(queryParams);
-        String hashedParams = HashUtils.sha256Hex(urlParams + sifenPropierties.getCsc());
-        return sifenPropierties.getUrlConsultaQr() + urlParams + "&cHashQR=" + hashedParams;
+        String hashedParams = HashUtils.sha256Hex(urlParams + sifenProperties.getCsc());
+        return sifenProperties.getUrlConsultaQr() + urlParams + "&cHashQR=" + hashedParams;
     }
 
 

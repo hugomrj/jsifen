@@ -4,8 +4,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import py.com.jsifen.infrastructure.sifen.ServerSifen;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
-import py.com.jsifen.infrastructure.soap.config.SSLConfig;
+import py.com.jsifen.infrastructure.sifen.SifenProperties;
+import py.com.jsifen.infrastructure.config.SSLConfig;
 import py.com.jsifen.infrastructure.soap.request.LoteConsultaRequest;
 import py.com.jsifen.infrastructure.soap.request.LoteRecibeRequest;
 import py.com.jsifen.infrastructure.util.xml.IOUtils;
@@ -32,7 +32,7 @@ public class LoteClient {
     private ServerSifen serverSifen;
 
     @Inject
-    SifenPropierties sifenPropierties;
+    SifenProperties sifenProperties;
 
     private HttpClient httpClient;
 
@@ -94,13 +94,13 @@ public class LoteClient {
 
 
     private String buildConsultaUrl() {
-        String environment = sifenPropierties.getAmbiente();
+        String environment = sifenProperties.getAmbiente();
         String baseUrl     = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/consultas/consulta-lote.wsdl";
     }
 
     private String buildRecepcionUrl() {
-        String environment = sifenPropierties.getAmbiente();
+        String environment = sifenProperties.getAmbiente();
         String baseUrl     = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/async/recibe-lote.wsdl";
     }

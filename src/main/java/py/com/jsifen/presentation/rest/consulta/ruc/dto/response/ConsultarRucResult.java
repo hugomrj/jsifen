@@ -1,4 +1,4 @@
-package py.com.jsifen.presentation.rest.consulta.dto.response;
+package py.com.jsifen.presentation.rest.consulta.ruc.dto.response;
 
 
 public class ConsultarRucResult {

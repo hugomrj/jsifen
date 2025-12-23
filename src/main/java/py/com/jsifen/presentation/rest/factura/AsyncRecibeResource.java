@@ -34,7 +34,6 @@ public class AsyncRecibeResource {
     RecibirFacturaUseCase recibirFacturaUseCase;
 
 
-
     @POST
     @Operation(
             summary = "Recepción asíncrona de factura",

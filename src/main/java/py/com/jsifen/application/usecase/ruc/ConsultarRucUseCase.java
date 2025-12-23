@@ -4,8 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import py.com.jsifen.domain.repository.RucRepository;
-import py.com.jsifen.presentation.rest.consulta.dto.response.ConsultarRucResult;
-import py.com.jsifen.presentation.rest.consulta.dto.response.DatosRuc;
+import py.com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResult;
+import py.com.jsifen.presentation.rest.consulta.ruc.dto.response.DatosRuc;
 
 @ApplicationScoped
 public class ConsultarRucUseCase {
@@ -16,10 +16,6 @@ public class ConsultarRucUseCase {
     public ConsultarRucResult execute(String ruc) {
 
         JsonObject json = rucRepository.buscarPorRuc(ruc);
-
-        System.out.println("===== RESPUESTA RUC =====");
-        System.out.println(json);
-        System.out.println("=========================");
 
         ConsultarRucResult result = new ConsultarRucResult();
 
@@ -38,7 +34,7 @@ public class ConsultarRucUseCase {
         if (json.containsKey("datosRUC") && !json.isNull("datosRUC")) {
 
             JsonObject datos = json.getJsonObject("datosRUC");
-            DatosRuc datosRuc = new DatosRuc(); // ✔️ misma unidad de compilación
+            DatosRuc datosRuc = new DatosRuc();
 
             datosRuc.setEstado(datos.getString("estado", null));
             datosRuc.setNombre(datos.getString("nombre", null));

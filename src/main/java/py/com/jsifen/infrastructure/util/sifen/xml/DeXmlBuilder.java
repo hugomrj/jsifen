@@ -10,20 +10,12 @@ import py.com.jsifen.domain.de.gen.DeComplemento;
 import py.com.jsifen.domain.de.mapping.Serializacion;
 import py.com.jsifen.domain.de.structure.DeXmlElement;
 import py.com.jsifen.domain.de.structure.DeXmlStructure;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
-import py.com.jsifen.infrastructure.util.xml.HashUtils;
-import py.com.jsifen.infrastructure.util.xml.IOUtils;
-import py.com.jsifen.infrastructure.util.xml.StringUtils;
+import py.com.jsifen.infrastructure.sifen.SifenProperties;
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.Signature;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +23,7 @@ import java.util.regex.Pattern;
 public class DeXmlBuilder {
 
     @Inject
-    SifenPropierties sifenPropierties;
+    SifenProperties sifenProperties;
 
     @Inject
     DeComplemento complegen;
@@ -43,7 +35,7 @@ public class DeXmlBuilder {
     DeXmlStructure xmlEstructura;
 
 
-    public SifenPropierties getSifenPropierties() { return sifenPropierties; }
+    public SifenProperties getSifenPropierties() { return sifenProperties; }
     public DeComplemento getComplegen() { return complegen; }
     public Serializacion getSerializacion() { return serializacion; }
     public DeXmlStructure getXmlEstructura() { return xmlEstructura; }

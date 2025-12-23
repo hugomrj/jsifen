@@ -1,11 +1,10 @@
-package py.com.jsifen.infrastructure.util.sifen.xml;
+package py.com.jsifen.infrastructure.soap.signer;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
+import py.com.jsifen.infrastructure.util.sifen.xml.FileXML;
 import py.com.jsifen.infrastructure.util.xml.XmlSigner;
 
 
@@ -18,10 +17,10 @@ public class SifenXmlSigner {
     public Node signXml(String xml) {
 
         // obtener nodo raíz
-        Node root = FileXML.get_root_node(xml, "rDE");
+        Node root = FileXML.getRootNode(xml, "rDE");
 
         // ubicar nodo DE
-        Node n = FileXML.getElementsByTagName(root, "DE");
+        Node n = FileXML.getElementByTagName(root, "DE");
         Element signedElement = (Element) n;
         String signedNodeId = signedElement.getAttribute("Id");
         signedElement.setIdAttribute("Id", true);

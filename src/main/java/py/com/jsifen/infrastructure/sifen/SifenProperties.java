@@ -8,7 +8,7 @@ import java.util.Properties;
 
 
 @ApplicationScoped
-public class SifenPropierties {
+public class SifenProperties {
 
     private static final String DEFAULT_PATH = "/sifen.properties";
     private final Properties properties = new Properties();
@@ -17,7 +17,7 @@ public class SifenPropierties {
     private final String urlConsultaQr;
     private final String csc;
 
-    public SifenPropierties() {
+    public SifenProperties() {
         try (InputStream in = getClass().getResourceAsStream(DEFAULT_PATH)) {
             if (in == null) {
                 throw new RuntimeException(

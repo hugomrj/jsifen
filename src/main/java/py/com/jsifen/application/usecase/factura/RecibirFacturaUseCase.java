@@ -8,7 +8,7 @@ import py.com.jsifen.domain.repository.FacturaRepository;
 import py.com.jsifen.domain.de.gen.SifenFacturaXmlGenerator;
 import py.com.jsifen.infrastructure.util.sifen.xml.FileXML;
 import py.com.jsifen.infrastructure.util.sifen.xml.QrNodeBuilder;
-import py.com.jsifen.infrastructure.util.sifen.xml.SifenXmlSigner;
+import py.com.jsifen.infrastructure.soap.signer.SifenXmlSigner;
 
 
 @ApplicationScoped
@@ -38,7 +38,7 @@ public class RecibirFacturaUseCase {
         Node nodoConQR = qrNodeBuilder.addQrNode(nodoFirmado);
 
         // 4. Pasar el DOM final a String
-        String xmlFinal = FileXML.xmltoString(nodoConQR);
+        String xmlFinal = FileXML.xmlToString(nodoConQR);
 
         // 5. Enviar y obtener respuesta
         JsonObject respuestaJson = facturaRepository.enviarFactura(xmlFinal);

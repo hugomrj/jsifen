@@ -1,6 +1,5 @@
 package py.com.jsifen.infrastructure.util.sifen.xml;
 
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,7 +22,7 @@ import java.io.StringWriter;
 
 public class FileXML {
 
-    public static Node get_root_node (String xml, String root)   {
+    public static Node getRootNode (String xml, String root)   {
         xml = xml.replaceAll(">[\\s\r\n]*<", "><");
 
         // Parseamos el xml
@@ -49,7 +48,7 @@ public class FileXML {
 
 
 
-    public static String xmltoString (Node xml){
+    public static String xmlToString (Node xml){
 
         StringWriter sw = new StringWriter();
         try {
@@ -66,7 +65,7 @@ public class FileXML {
     }
 
 
-    public static Node getElementsByTagName(Node node, String tag){
+    public static Node getElementByTagName(Node node, String tag){
 
         Element element = (Element) node;
         NodeList nodeList = element.getElementsByTagName(tag);

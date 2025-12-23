@@ -6,10 +6,8 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import jakarta.json.JsonObject;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
 import py.com.jsifen.infrastructure.util.sifen.xml.DeXmlBuilder;
 
-import java.util.stream.DoubleStream;
 
 @RequestScoped
 public class SifenFacturaXmlGenerator {

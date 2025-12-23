@@ -1,4 +1,4 @@
-package py.com.jsifen.infrastructure.soap.client;
+package py.com.jsifen.infrastructure.soap.client.evento;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import py.com.jsifen.infrastructure.sifen.ServerSifen;
 import py.com.jsifen.infrastructure.sifen.SifenProperties;
 import py.com.jsifen.infrastructure.config.SSLConfig;
-import py.com.jsifen.infrastructure.soap.request.DERequest;
+import py.com.jsifen.infrastructure.soap.request.EventoCancelarSoapRequest;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,34 +14,35 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @ApplicationScoped
-public class DEClient {
+public class CancelarClient {
 
     @Inject
-    private DERequest deRequest;
+    EventoCancelarSoapRequest eventoCancelarRequest;
 
     @Inject
-    private SSLConfig sslConfig;
+    SSLConfig sslConfig;
 
     @Inject
-    private ServerSifen serverSifen;
+    ServerSifen serverSifen;
 
     @Inject
     SifenProperties sifenProperties;
-
 
     private HttpClient httpClient;
 
     @PostConstruct
     void initialize() {
-        httpClient = HttpClient.newBuilder()
+        this.httpClient = HttpClient.newBuilder()
                 .sslContext(sslConfig.createSSLContext())
                 .build();
     }
 
-    public HttpResponse<String> consultaDE(String cdc) {
+    public HttpResponse<String> cancelarEvento(String id, String mOtEve) {
         try {
-            String endpointUrl = buildConsultaUrl();
-            String xmlRequest = deRequest.createQueryXml(cdc);
+            String endpointUrl = buildCancelarEventoUrl();
+
+            String xmlRequest =
+                    eventoCancelarRequest.createCancelarXml(id, mOtEve);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(endpointUrl))
@@ -49,24 +50,18 @@ public class DEClient {
                     .POST(HttpRequest.BodyPublishers.ofString(xmlRequest))
                     .build();
 
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return httpClient.send(
+                    request, HttpResponse.BodyHandlers.ofString()
+            );
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to query DE: " + e.getMessage(), e);
+            throw new RuntimeException("Error cancelando evento", e);
         }
     }
 
-
-
-    private String buildConsultaUrl() {
-        String base = serverSifen.getServer(sifenProperties.getAmbiente());
-        return base + "/de/ws/consultas/consulta.wsdl";
+    private String buildCancelarEventoUrl() {
+        String environment = sifenProperties.getAmbiente();
+        String baseUrl = serverSifen.getServer(environment);
+        return baseUrl + "/de/ws/eventos/evento.wsdl";
     }
-
-    private String buildRecepcionUrl() {
-        String base = serverSifen.getServer(sifenProperties.getAmbiente());
-        return base + "/de/ws/async/recibe-lote.wsdl";
-    }
-
-
 }

@@ -1,8 +1,8 @@
-package py.com.jsifen.infrastructure.soap.config;
+package py.com.jsifen.infrastructure.config;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import py.com.jsifen.infrastructure.sifen.SifenPropierties;
+import py.com.jsifen.infrastructure.sifen.SifenProperties;
 
 import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
@@ -14,13 +14,13 @@ import javax.net.ssl.KeyManagerFactory;
 public class SSLConfig {
 
     @Inject
-    SifenPropierties sifenPropierties;
+    SifenProperties sifenProperties;
 
     public SSLContext createSSLContext() {
         try {
 
-            String keystorePath = sifenPropierties.getKeystorePath();
-            String keystorePassword = sifenPropierties.getKeystorePassword();
+            String keystorePath = sifenProperties.getKeystorePath();
+            String keystorePassword = sifenProperties.getKeystorePassword();
 
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
             keyStore.load(new FileInputStream(keystorePath), keystorePassword.toCharArray());
