@@ -5,7 +5,7 @@ Este proyecto proporciona una interfaz para consultas al sistema JSIFEN (Sistema
 ## Estructura del Proyecto
 La aplicación sigue **Clean Architecture**, lo que permite que el flujo sea claro:
 ```
-src/main/java/py/com/jsifen/
+src/main/java/com/jsifen/
 │
 ├── application/   # Casos de uso: coordinan la interacción entre capas
 ├── domain/        # Modelo de negocio puro y contratos de repositorio
