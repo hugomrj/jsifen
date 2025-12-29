@@ -2,23 +2,44 @@ package com.jsifen.infrastructure.config.sifen;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+
+
 @ApplicationScoped
 public class SifenProperties {
 
-    private static final String DEFAULT_PATH = "/sifen.properties";
+    private static final String DEFAULT_CLASSPATH = "/sifen.properties";
+    private static final String SYSTEM_PROPERTY = "sifen.config";
+
     private final Properties properties = new Properties();
 
     public SifenProperties() {
-        try (InputStream in = getClass().getResourceAsStream(DEFAULT_PATH)) {
+        try {
+            InputStream in;
+
+            // 1️⃣ Prioridad: archivo externo (-Dsifen.config=...)
+            String externalPath = System.getProperty(SYSTEM_PROPERTY);
+
+            if (externalPath != null && !externalPath.isBlank()) {
+                System.out.println("📄 Cargando configuración externa: " + externalPath);
+                in = new FileInputStream(externalPath);
+            } else {
+                // 2️⃣ Fallback: recurso dentro del JAR
+                System.out.println("📄 Cargando configuración interna: " + DEFAULT_CLASSPATH);
+                in = getClass().getResourceAsStream(DEFAULT_CLASSPATH);
+            }
+
             if (in == null) {
                 throw new RuntimeException(
-                        "No se pudo encontrar el archivo: " + DEFAULT_PATH);
+                        "No se pudo encontrar el archivo de configuración (externo o interno)");
             }
+
             properties.load(in);
+
         } catch (IOException e) {
             throw new RuntimeException("Error cargando sifen.properties", e);
         }
