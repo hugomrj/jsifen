@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.soap.signer;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.w3c.dom.Element;
@@ -23,12 +24,17 @@ public class EventoXmlSigner {
     @Inject
     SifenProperties sifenProperties;
 
+    @Inject
+    EmisorContext emisorContext;
+
 
     @Inject
     XmlSigner xmlSigner;
 
     public Node firmar(String xml) {
         try {
+            String emisor = emisorContext.getEmisor();
+
             // Nodo raíz a firmar
             Node root = FileXML.getRootNode(xml, "rGesEve");
 
@@ -43,8 +49,8 @@ public class EventoXmlSigner {
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
 
             try (InputStream in =
-                         new FileInputStream(sifenProperties.getKeystorePath    ())) {
-                ks.load(in, sifenProperties.getKeystorePassword().toCharArray());
+                         new FileInputStream(sifenProperties.getKeystorePath(emisor))) {
+                ks.load(in, sifenProperties.getKeystorePassword(emisor).toCharArray());
             }
 
             String alias = ks.aliases().nextElement();
@@ -54,7 +60,7 @@ public class EventoXmlSigner {
 
             PrivateKey privateKey = (PrivateKey) ks.getKey(
                     alias,
-                    sifenProperties.getKeystorePassword().toCharArray()
+                    sifenProperties.getKeystorePassword(emisor).toCharArray()
             );
 
             // 4️⃣ Firmar

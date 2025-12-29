@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.soap.client.lote;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -10,6 +11,7 @@ import com.jsifen.infrastructure.soap.request.LoteConsultaRequest;
 import com.jsifen.infrastructure.soap.request.LoteRecibeRequest;
 import com.jsifen.infrastructure.util.xml.IOUtils;
 
+import javax.net.ssl.SSLContext;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -34,19 +36,29 @@ public class LoteClient {
     @Inject
     SifenProperties sifenProperties;
 
-    private HttpClient httpClient;
+    @Inject
+    EmisorContext emisorContext;
 
+/*
     @PostConstruct
     void initialize() {
         this.httpClient = HttpClient.newBuilder()
                 .sslContext(sslConfig.createSSLContext())
                 .build();
     }
+ */
 
 
     public HttpResponse<String> consultaLote(String lote) {
         try {
-            String endpointUrl = buildConsultaUrl();
+            String emisor = emisorContext.getEmisor();
+            SSLContext sslContext = sslConfig.createSSLContext(emisor);
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+
+
+            String endpointUrl = buildConsultaUrl(emisor);
             String xmlRequest = loteConsultaRequest.createQueryXml(lote);
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -68,13 +80,21 @@ public class LoteClient {
 
     public HttpResponse<String> recibeLote(String xmlFactura) {
         try {
+
+            String emisor = emisorContext.getEmisor();
+            SSLContext sslContext = sslConfig.createSSLContext(emisor);
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+
             // convertir zip a base64
             xmlFactura = "<rLoteDE>" + xmlFactura + "</rLoteDE>";
 
             byte[] zipData = IOUtils.compressXmlToZip(xmlFactura);
             String base64Zip = Base64.getEncoder().encodeToString(zipData);
 
-            String endpointUrl = buildRecepcionUrl();
+
+            String endpointUrl = buildRecepcionUrl(emisor);
             String xmlRequest = loteRecibeRequest.createEnvioXml(base64Zip);
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -93,14 +113,14 @@ public class LoteClient {
 
 
 
-    private String buildConsultaUrl() {
-        String environment = sifenProperties.getAmbiente();
+    private String buildConsultaUrl(String emisor)  {
+        String environment = sifenProperties.getAmbiente(emisor);
         String baseUrl     = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/consultas/consulta-lote.wsdl";
     }
 
-    private String buildRecepcionUrl() {
-        String environment = sifenProperties.getAmbiente();
+    private String buildRecepcionUrl(String emisor)  {
+        String environment = sifenProperties.getAmbiente(emisor);
         String baseUrl     = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/async/recibe-lote.wsdl";
     }

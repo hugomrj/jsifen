@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.util.xml.signer;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.w3c.dom.Node;
@@ -27,12 +28,17 @@ public class XmlSigner {
     @Inject
     SifenProperties sifenProperties;
 
+
+    @Inject
+    EmisorContext emisorContext;
+
     public Node sign(Node parentNode,
                      String signedNodeId,
                      X509Certificate certificate,
                      PrivateKey privateKey)
             throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             MarshalException, XMLSignatureException {
+
 
         XMLSignatureFactory sf = XMLSignatureFactory.getInstance("DOM");
         DigestMethod digestMethod = sf.newDigestMethod(DigestMethod.SHA256, null);
@@ -62,17 +68,20 @@ public class XmlSigner {
 
     public Node sign(Node parentNode, String signedNodeId) {
         try {
+
+            String emisor = emisorContext.getEmisor();
+
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            String fullPath = sifenProperties.getKeystorePath(); // ruta completa al .p12
+            String fullPath = sifenProperties.getKeystorePath(emisor); // ruta completa al .p12
             try (InputStream in = new FileInputStream(fullPath)) {
-                ks.load(in, sifenProperties.getKeystorePassword().toCharArray());
+                ks.load(in, sifenProperties.getKeystorePassword(emisor).toCharArray());
             }
 
             String alias = ks.aliases().nextElement();
             X509Certificate cert = (X509Certificate) ks.getCertificate(alias);
             PrivateKey pk = (PrivateKey) ks.getKey(
                     alias,
-                    sifenProperties.getKeystorePassword().toCharArray()
+                    sifenProperties.getKeystorePassword(emisor).toCharArray()
             );
 
             return sign(parentNode, signedNodeId, cert, pk);

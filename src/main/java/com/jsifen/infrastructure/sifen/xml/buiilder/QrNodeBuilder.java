@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.sifen.xml.buiilder;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import com.jsifen.infrastructure.config.sifen.SifenProperties;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,6 +22,10 @@ public class QrNodeBuilder {
     @Inject
     SifenProperties sifenProperties;
 
+    @Inject
+    EmisorContext emisorContext;
+
+
     public Node addQrNode(Node node ) {
 
         Document doc = node.getOwnerDocument();
@@ -37,6 +42,9 @@ public class QrNodeBuilder {
 
 
     public String generateQRLink(Node root) {
+
+        String emisor = emisorContext.getEmisor();
+
         Document doc = root.getOwnerDocument();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LinkedHashMap<String, String> queryParams = new LinkedHashMap<>();
@@ -98,11 +106,11 @@ public class QrNodeBuilder {
         byte[] digestValueBytes = digestValue.getBytes(StandardCharsets.UTF_8);
         queryParams.put("DigestValue", HashUtils.bytesToHex(digestValueBytes));
 
-        queryParams.put("IdCSC", sifenProperties.getIdCsc());
+        queryParams.put("IdCSC", sifenProperties.getIdCsc(emisor));
 
         String urlParams = IOUtils.buildUrlParams(queryParams);
-        String hashedParams = HashUtils.sha256Hex(urlParams + sifenProperties.getCsc());
-        return sifenProperties.getUrlConsultaQr() + urlParams + "&cHashQR=" + hashedParams;
+        String hashedParams = HashUtils.sha256Hex(urlParams + sifenProperties.getCsc(emisor));
+        return sifenProperties.getUrlConsultaQr(emisor) + urlParams + "&cHashQR=" + hashedParams;
     }
 
 

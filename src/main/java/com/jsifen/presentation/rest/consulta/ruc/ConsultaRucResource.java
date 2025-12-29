@@ -1,5 +1,6 @@
 package com.jsifen.presentation.rest.consulta.ruc;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -20,10 +21,22 @@ public class ConsultaRucResource {
     @Inject
     ConsultarRucUseCase consultarRucUseCase;
 
+    @Inject
+    EmisorContext emisorContext;   // 👈 acá
+
     @POST
     @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
-    public Response consultarRuc(ConsultaRucRequest request)  {
+    public Response consultarRuc(
+            @HeaderParam("Emisor") String emisor,
+             ConsultaRucRequest request)  {
         try {
+
+            // Si no viene empresa → usa default
+            if (emisor == null || emisor.isBlank()) {
+                emisor = null;
+            }
+            emisorContext.setEmisor(emisor);
+
             ConsultarRucResult response = consultarRucUseCase.execute(request.getRuc());
 
             return Response
@@ -38,7 +51,5 @@ public class ConsultaRucResource {
                 .build();
         }
     }
-
-
 
 }

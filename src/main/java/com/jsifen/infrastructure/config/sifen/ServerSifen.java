@@ -2,7 +2,7 @@ package com.jsifen.infrastructure.config.sifen;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-@ApplicationScoped // ← Convertir en bean de CDI
+@ApplicationScoped
 public class ServerSifen {
 
     // Cambiar a constantes (final) y mayúsculas (convención)

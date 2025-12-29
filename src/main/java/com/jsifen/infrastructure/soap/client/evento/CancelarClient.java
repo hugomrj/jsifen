@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.soap.client.evento;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,6 +9,7 @@ import com.jsifen.infrastructure.config.sifen.SifenProperties;
 import com.jsifen.infrastructure.config.security.SSLConfig;
 import com.jsifen.infrastructure.soap.request.EventoCancelarSoapRequest;
 
+import javax.net.ssl.SSLContext;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,19 +30,29 @@ public class CancelarClient {
     @Inject
     SifenProperties sifenProperties;
 
-    private HttpClient httpClient;
+    @Inject
+    EmisorContext emisorContext;
 
+/*
     @PostConstruct
     void initialize() {
         this.httpClient = HttpClient.newBuilder()
                 .sslContext(sslConfig.createSSLContext())
                 .build();
     }
+*/
 
     public HttpResponse<String> cancelarEvento(String id, String mOtEve) {
         try {
-            String endpointUrl = buildCancelarEventoUrl();
 
+            String emisor = emisorContext.getEmisor();
+            SSLContext sslContext = sslConfig.createSSLContext(emisor);
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+
+
+            String endpointUrl = buildCancelarEventoUrl(emisor);
             String xmlRequest =
                     eventoCancelarRequest.createCancelarXml(id, mOtEve);
 
@@ -59,8 +71,8 @@ public class CancelarClient {
         }
     }
 
-    private String buildCancelarEventoUrl() {
-        String environment = sifenProperties.getAmbiente();
+    private String buildCancelarEventoUrl(String emisor) {
+        String environment = sifenProperties.getAmbiente(emisor);
         String baseUrl = serverSifen.getServer(environment);
         return baseUrl + "/de/ws/eventos/evento.wsdl";
     }

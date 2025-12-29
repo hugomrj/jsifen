@@ -1,5 +1,6 @@
 package com.jsifen.infrastructure.soap.client.de;
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,6 +9,7 @@ import com.jsifen.infrastructure.config.sifen.SifenProperties;
 import com.jsifen.infrastructure.config.security.SSLConfig;
 import com.jsifen.infrastructure.soap.request.DERequest;
 
+import javax.net.ssl.SSLContext;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,19 +30,18 @@ public class DEClient {
     @Inject
     SifenProperties sifenProperties;
 
-
-    private HttpClient httpClient;
-
-    @PostConstruct
-    void initialize() {
-        httpClient = HttpClient.newBuilder()
-                .sslContext(sslConfig.createSSLContext())
-                .build();
-    }
+    @Inject
+    EmisorContext emisorContext;
 
     public HttpResponse<String> consultaDE(String cdc) {
         try {
-            String endpointUrl = buildConsultaUrl();
+            String emisor = emisorContext.getEmisor();
+            SSLContext sslContext = sslConfig.createSSLContext(emisor);
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+
+            String endpointUrl = buildConsultaUrl(emisor);
             String xmlRequest = deRequest.createQueryXml(cdc);
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -58,13 +59,13 @@ public class DEClient {
 
 
 
-    private String buildConsultaUrl() {
-        String base = serverSifen.getServer(sifenProperties.getAmbiente());
+    private String buildConsultaUrl( String emisor){
+        String base = serverSifen.getServer(sifenProperties.getAmbiente(emisor));
         return base + "/de/ws/consultas/consulta.wsdl";
     }
 
-    private String buildRecepcionUrl() {
-        String base = serverSifen.getServer(sifenProperties.getAmbiente());
+    private String buildRecepcionUrl(String emisor) {
+        String base = serverSifen.getServer(sifenProperties.getAmbiente(emisor));
         return base + "/de/ws/async/recibe-lote.wsdl";
     }
 
