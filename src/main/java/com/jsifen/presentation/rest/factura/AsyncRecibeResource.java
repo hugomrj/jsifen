@@ -1,13 +1,11 @@
 package com.jsifen.presentation.rest.factura;
 
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -31,6 +29,9 @@ public class AsyncRecibeResource {
     @Inject
     RecibirFacturaUseCase recibirFacturaUseCase;
 
+    @Inject
+    EmisorContext emisorContext;
+
 
     @POST
     @Operation(
@@ -38,6 +39,8 @@ public class AsyncRecibeResource {
             description = "Procesa una factura electrónica en modo asíncrono"
     )
     public Response asyncRecibe(
+            @HeaderParam("token") String token,
+            @HeaderParam("Emisor") String emisor,
             @RequestBody(
                     description = "JSON de factura electrónica",
                     required = true,
@@ -148,6 +151,12 @@ public class AsyncRecibeResource {
             String json
     ) {
         try {
+
+            if (emisor == null || emisor.isBlank()) {
+                emisor = null;
+            }
+            emisorContext.setEmisor(emisor);
+
 
             JsonObject jsonObject = Json.createReader(new StringReader(json))
                     .readObject();

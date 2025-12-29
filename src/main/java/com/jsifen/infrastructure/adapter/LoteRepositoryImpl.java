@@ -1,6 +1,7 @@
 package com.jsifen.infrastructure.adapter;
 
 
+import com.jsifen.presentation.rest.consulta.lote.dto.request.ConsultarLoteRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.Json;

@@ -1,9 +1,10 @@
 package com.jsifen.application.usecase.lote;
 
+import com.jsifen.presentation.rest.consulta.lote.dto.request.ConsultarLoteRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.JsonObject;
 import com.jsifen.domain.repository.LoteRepository;
+import jakarta.json.JsonObject;
 
 
 @ApplicationScoped

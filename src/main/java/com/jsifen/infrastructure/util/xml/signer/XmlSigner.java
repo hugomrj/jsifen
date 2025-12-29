@@ -72,7 +72,7 @@ public class XmlSigner {
             String emisor = emisorContext.getEmisor();
 
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            String fullPath = sifenProperties.getKeystorePath(emisor); // ruta completa al .p12
+            String fullPath = sifenProperties.getKeystorePath(emisor);
             try (InputStream in = new FileInputStream(fullPath)) {
                 ks.load(in, sifenProperties.getKeystorePassword(emisor).toCharArray());
             }

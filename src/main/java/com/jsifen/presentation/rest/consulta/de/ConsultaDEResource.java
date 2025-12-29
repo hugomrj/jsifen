@@ -41,6 +41,7 @@ public class ConsultaDEResource {
             description = "Consulta un documento electrónico por CDC (Código de Control)"
     )
     public Response consultaDExml(
+            @HeaderParam("token") String token,
             @HeaderParam("Emisor") String emisor,
             @RequestBody(
                     description = "JSON con el CDC del documento a consultar",
@@ -63,7 +64,6 @@ public class ConsultaDEResource {
                 emisor = null;
             }
             emisorContext.setEmisor(emisor);
-
 
             JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
             String cdc = jsonObject.getString("cdc");

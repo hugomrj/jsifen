@@ -33,15 +33,6 @@ public class CancelarClient {
     @Inject
     EmisorContext emisorContext;
 
-/*
-    @PostConstruct
-    void initialize() {
-        this.httpClient = HttpClient.newBuilder()
-                .sslContext(sslConfig.createSSLContext())
-                .build();
-    }
-*/
-
     public HttpResponse<String> cancelarEvento(String id, String mOtEve) {
         try {
 

@@ -28,25 +28,31 @@ public class RecibirFacturaUseCase {
 
     public JsonObject execute(JsonObject facturaInput) throws Exception {
 
+        System.out.println(">> execute() - inicio");
+
         // 1. Convertir JSON a XML
+        System.out.println(">> Paso 1: generar XML");
         String xmlGenerado = xmlGenerator.generar(facturaInput);
 
-        // 2. Firmar (devuelve DOM firmado)
+        // 2. Firmar
+        System.out.println(">> Paso 2: firmar XML");
         Node nodoFirmado = xmlSigner.signXml(xmlGenerado);
 
-        // 3. Agregar QR al DOM firmado
+        // 3. Agregar QR
+        System.out.println(">> Paso 3: agregar QR");
         Node nodoConQR = qrNodeBuilder.addQrNode(nodoFirmado);
 
-        // 4. Pasar el DOM final a String
+        // 4. Convertir a String
+        System.out.println(">> Paso 4: convertir XML a String");
         String xmlFinal = FileXML.xmlToString(nodoConQR);
 
-        // 5. Enviar y obtener respuesta
+        // 5. Enviar
+        System.out.println(">> Paso 5: enviar factura");
         JsonObject respuestaJson = facturaRepository.enviarFactura(xmlFinal);
 
-        //JsonObject respuestaJson = null;
+        System.out.println(">> execute() - fin");
+
         return respuestaJson;
-
     }
-
 
 }

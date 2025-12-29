@@ -1,6 +1,7 @@
 package com.jsifen.presentation.rest.evento.cancelar;
 
 
+import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -20,6 +21,9 @@ public class EventoCancelarResource {
     @Inject
     CancelarEventoUseCase cancelarEventoUseCase;
 
+    @Inject
+    EmisorContext emisorContext;
+
     @POST
     @Operation(
             summary = "Cancelar evento",
@@ -27,9 +31,16 @@ public class EventoCancelarResource {
     )
     public Response cancelarEvento(
             @HeaderParam("token") String token,
+            @HeaderParam("Emisor") String emisor,
             CancelarRequest request
     ) {
         try {
+
+            if (emisor == null || emisor.isBlank()) {
+                emisor = null;
+            }
+            emisorContext.setEmisor(emisor);
+
             String cdc    = request.getCdc();
             String motivo = request.getMotivo();
 
