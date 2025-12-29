@@ -21,21 +21,18 @@ public class SifenProperties {
         try {
             InputStream in;
 
-            // 1️⃣ Prioridad: archivo externo (-Dsifen.config=...)
             String externalPath = System.getProperty(SYSTEM_PROPERTY);
 
             if (externalPath != null && !externalPath.isBlank()) {
+                // 🔹 Producción
                 System.out.println("📄 Cargando configuración externa: " + externalPath);
                 in = new FileInputStream(externalPath);
-            } else {
-                // 2️⃣ Fallback: recurso dentro del JAR
-                System.out.println("📄 Cargando configuración interna: " + DEFAULT_CLASSPATH);
-                in = getClass().getResourceAsStream(DEFAULT_CLASSPATH);
-            }
 
-            if (in == null) {
-                throw new RuntimeException(
-                        "No se pudo encontrar el archivo de configuración (externo o interno)");
+            } else {
+                // 🔹 DEV → archivo local del proyecto
+                String devPath = "src/main/resources/sifen.properties";
+                System.out.println("📄 Cargando configuración DEV: " + devPath);
+                in = new FileInputStream(devPath);
             }
 
             properties.load(in);
@@ -44,6 +41,7 @@ public class SifenProperties {
             throw new RuntimeException("Error cargando sifen.properties", e);
         }
     }
+
 
     // =========================
     // LÓGICA BASE
