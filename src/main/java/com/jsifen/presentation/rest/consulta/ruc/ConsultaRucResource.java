@@ -22,13 +22,13 @@ public class ConsultaRucResource {
     ConsultarRucUseCase consultarRucUseCase;
 
     @Inject
-    EmisorContext emisorContext;   // 👈 acá
+    EmisorContext emisorContext;
 
     @POST
     @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
     public Response consultarRuc(
             @HeaderParam("Emisor") String emisor,
-             ConsultaRucRequest request)  {
+            ConsultaRucRequest request)  {
         try {
 
             // Si no viene empresa → usa default
