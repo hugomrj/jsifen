@@ -9,7 +9,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.jsifen.application.usecase.ruc.ConsultarRucUseCase;
 import com.jsifen.presentation.rest.consulta.ruc.dto.request.ConsultaRucRequest;
-import com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResult;
+import com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResponse;
 
 
 @Path("/consulta/ruc")
@@ -38,7 +38,7 @@ public class ConsultaRucResource {
             }
             emisorContext.setEmisor(emisor);
 
-            ConsultarRucResult response = consultarRucUseCase.execute(request.getRuc());
+            ConsultarRucResponse response = consultarRucUseCase.execute(request.getRuc());
 
             return Response
                 .status(Response.Status.OK)

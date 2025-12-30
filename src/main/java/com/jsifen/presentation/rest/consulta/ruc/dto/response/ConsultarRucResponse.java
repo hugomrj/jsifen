@@ -1,7 +1,7 @@
 package com.jsifen.presentation.rest.consulta.ruc.dto.response;
 
 
-public class ConsultarRucResult {
+public class ConsultarRucResponse {
 
     private String codigoRespuesta;
     private String mensajeRespuesta;

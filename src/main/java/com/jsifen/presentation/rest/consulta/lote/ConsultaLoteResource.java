@@ -3,6 +3,7 @@ package com.jsifen.presentation.rest.consulta.lote;
 
 import com.jsifen.infrastructure.config.context.EmisorContext;
 import com.jsifen.presentation.rest.consulta.lote.dto.request.ConsultarLoteRequest;
+import com.jsifen.presentation.rest.consulta.lote.dto.response.ConsultaLoteResponse;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
@@ -41,7 +42,7 @@ public class ConsultaLoteResource {
             }
             emisorContext.setEmisor(emisor);
 
-            JsonObject response = consultaLoteUseCase.execute(request.getLote());
+            ConsultaLoteResponse response = consultaLoteUseCase.execute(request.getLote());
 
             return Response
                     .status(Response.Status.OK)

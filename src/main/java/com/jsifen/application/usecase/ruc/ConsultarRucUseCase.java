@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import com.jsifen.domain.repository.RucRepository;
-import com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResult;
+import com.jsifen.presentation.rest.consulta.ruc.dto.response.ConsultarRucResponse;
 import com.jsifen.presentation.rest.consulta.ruc.dto.response.DatosRuc;
 
 @ApplicationScoped
@@ -13,11 +13,11 @@ public class ConsultarRucUseCase {
     @Inject
     RucRepository rucRepository;
 
-    public ConsultarRucResult execute(String ruc) {
+    public ConsultarRucResponse execute(String ruc) {
 
         JsonObject json = rucRepository.buscarPorRuc(ruc);
 
-        ConsultarRucResult result = new ConsultarRucResult();
+        ConsultarRucResponse result = new ConsultarRucResponse();
 
         if (json.containsKey("statusCode")) {
             result.setStatusCode(json.getInt("statusCode"));
