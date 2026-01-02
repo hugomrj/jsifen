@@ -63,7 +63,7 @@ public class DeXmlBuilderTest {
  "dBasGravIVA":"909","dLiqIVAItem":"91","dBasExe":"0"}]}
 """;
 
-        String cdc = CdcGenerator.obtenerCDC(json);
+        String cdc = CdcGenerator.generarCdc(json);
 
         String xml = builder.generateXml(json, cdc);
 

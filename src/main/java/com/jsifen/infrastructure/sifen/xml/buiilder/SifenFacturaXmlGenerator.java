@@ -26,7 +26,7 @@ DeComplemento complegen;
         // convertir a String
         String json = facturaJson.toString().trim();
 
-        String cdc = CdcGenerator.obtenerCDC(json);
+        String cdc = CdcGenerator.generarCdc(json);
 
         String jsonCom = complegen.getJsonCom(json, cdc);
 

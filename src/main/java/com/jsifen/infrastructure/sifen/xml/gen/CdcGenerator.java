@@ -9,7 +9,7 @@ import java.util.Date;
 
 public final class CdcGenerator {
 
-    public static String obtenerCDC(String json) throws Exception {
+    public static String generarCdc (String json) throws Exception {
 
         Serializacion serializacion = new Serializacion();
         serializacion.setJson(json);

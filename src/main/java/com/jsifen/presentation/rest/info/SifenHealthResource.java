@@ -29,7 +29,3 @@ public class SifenHealthResource {
     }
 }
 
-
- /*
- /health/sifen/test?emisor=nombre
- */
