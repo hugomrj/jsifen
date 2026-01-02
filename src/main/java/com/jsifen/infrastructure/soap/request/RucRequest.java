@@ -19,7 +19,7 @@ public class RucRequest {
             <soap:Body>
                 <xsd:rEnviConsRUC xmlns="http://ekuatia.set.gov.py/sifen/xsd"
                                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                  xsi:schemaLocation="http://ekuatia.set.gov.py/sifen/xsd/ siConsRUC_v150.xsd">
+                                  xsi:schemaLocation="http://ekuatia.set.gov.py/sifen/xsd/siConsRUC_v150.xsd">
                     <xsd:dId>%s</xsd:dId>
                     <xsd:dRUCCons>%s</xsd:dRUCCons>
                 </xsd:rEnviConsRUC>

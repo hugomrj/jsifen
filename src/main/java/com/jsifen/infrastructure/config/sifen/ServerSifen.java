@@ -12,7 +12,7 @@ public class ServerSifen {
     // Quitar static para poder inyectar como bean
     public String getServer(String ambiente) {
         // Mejorar validaciones y quitar variable temporal
-        if ("prod".equalsIgnoreCase(ambiente)) { // ← Cambiar "soap" a "produccion"
+        if ("prod".equalsIgnoreCase(ambiente)) {
             return PRODUCCION;
         }
         else if ("test".equalsIgnoreCase(ambiente)) {

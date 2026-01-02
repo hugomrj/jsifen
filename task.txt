@@ -1,0 +1,13 @@
+API que reciba un JSON y genere un XML firmado como respuesta
+
+Recepción del parámetro emisor para determinar el contexto de ejecución
+
+Creación y uso de una base de datos SQLite independiente por cada emisor
+
+Almacenamiento del XML firmado y de los datos que se definan posteriormente
+
+Inicialización automática de la base de datos y tablas si no existen
+
+Separación de responsabilidades entre capa de servicio y persistencia
+
+Manejo de errores de validación, firma digital y acceso a datos
