@@ -1,6 +1,5 @@
 package com.jsifen.presentation.rest.factura;
 
-
 import com.jsifen.infrastructure.config.context.EmisorContext;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -31,7 +30,6 @@ public class AsyncRecibeResource {
 
     @Inject
     EmisorContext emisorContext;
-
 
     @POST
     @Operation(

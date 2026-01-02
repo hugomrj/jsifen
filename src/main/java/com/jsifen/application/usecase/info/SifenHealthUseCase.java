@@ -1,14 +1,10 @@
 package com.jsifen.application.usecase.info;
 
-import com.jsifen.domain.repository.RucRepository;
-import com.jsifen.infrastructure.config.sifen.ServerSifen;
 import com.jsifen.infrastructure.soap.client.info.SifenHealthClient;
 import com.jsifen.presentation.rest.info.dto.HealthStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.JsonObject;
 
-import java.net.http.HttpResponse;
 
 @ApplicationScoped
 public class SifenHealthUseCase {
@@ -16,12 +12,12 @@ public class SifenHealthUseCase {
     @Inject
     SifenHealthClient healthClient;
 
-    public HealthStatus check(String env) {
+    public HealthStatus check(String env, String emisor) {
 
         try {
             String ruc = generarRucTest();
 
-            var response = healthClient.consultarRuc(ruc, env);
+            var response = healthClient.consultarRuc(ruc, env, emisor);
 
             int httpStatus = response.statusCode();
             boolean up = httpStatus >= 200 && httpStatus < 500;

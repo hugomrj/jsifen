@@ -28,31 +28,22 @@ public class SifenHealthClient {
     @Inject
     ServerSifen serverSifen;
 
-
-    public HttpResponse<String> consultarRuc(String ruc, String ambiente) {
+    public HttpResponse<String> consultarRuc(String ruc, String ambiente, String emisor) {
         try {
             System.out.println("=== SIFEN HEALTH CHECK ===");
-            System.out.println("Ambiente recibido: " + ambiente);
-
-            String emisor = null;
+            System.out.println("Ambiente: " + ambiente);
             System.out.println("Emisor: " + emisor);
 
             SSLContext sslContext = sslConfig.createSSLContext(emisor);
-            System.out.println("SSLContext creado OK");
 
             HttpClient client = HttpClient.newBuilder()
                     .sslContext(sslContext)
                     .build();
 
             String baseUrl = serverSifen.getServer(ambiente);
-            System.out.println("Base URL: " + baseUrl);
-
             String endpoint = baseUrl + "/de/ws/consultas/consulta-ruc.wsdl";
-            System.out.println("Endpoint final: " + endpoint);
 
             String xml = rucRequest.createQueryXml(ruc);
-            System.out.println("XML generado:");
-            System.out.println(xml);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(endpoint))
@@ -60,25 +51,10 @@ public class SifenHealthClient {
                     .POST(HttpRequest.BodyPublishers.ofString(xml))
                     .build();
 
-            System.out.println("Enviando request...");
-
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println("Status: " + response.statusCode());
-            System.out.println("Response body:");
-            System.out.println(response.body());
-
-            return response;
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
 
         } catch (Exception e) {
-            System.out.println("❌ ERROR EN HEALTH CHECK");
-            e.printStackTrace();
             throw new RuntimeException("Health check SIFEN failed", e);
         }
     }
-
-
-
-
 }
