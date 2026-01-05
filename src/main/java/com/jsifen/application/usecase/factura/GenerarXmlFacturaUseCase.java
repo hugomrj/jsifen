@@ -25,27 +25,75 @@ public class GenerarXmlFacturaUseCase {
     @Inject
     QrNodeBuilder qrNodeBuilder;
 
+
     public FacturaFirmadaResponse ejecutar(JsonObject facturaInput) throws Exception {
 
-        System.out.println("==> [XML] Inicio generación de XML");
+        System.out.println("ENTRA A ejecutar()");
 
         // 1. Generar XML
+        System.out.println("PASO 1: antes de generar XML");
         String xmlGenerado = xmlGenerator.generar(facturaInput);
+        System.out.println("PASO 1 OK");
 
         // 2. Firmar XML
+        System.out.println("PASO 2: antes de firmar XML");
         Node nodoFirmado = xmlSigner.signXml(xmlGenerado);
+        System.out.println("PASO 2 OK");
 
         // 3. Agregar QR
-        Node nodoConQR = qrNodeBuilder.addQrNode(nodoFirmado);
+        System.out.println("PASO 3: antes de agregar QR");
+        Node nodo = qrNodeBuilder.addQrNode(nodoFirmado);
+        System.out.println("PASO 3 OK");
 
-        // 4. Obtener CDC desde el XML
-        String cdc = XmlUtils.obtenerCdcDesdeXml(nodoConQR);
 
-        // 5. Convertir XML a String
-        String xmlFinal = FileXML.xmlToString(nodoConQR);
+        // CDC
+        String cdc = XmlUtils.obtenerCdcDesdeXml(nodo);
+        if (cdc == null || cdc.isBlank()) {
+            System.out.println("❌ CDC vacío");
+        } else {
+            System.out.println("✅ CDC = [" + cdc + "]");
+        }
 
-        return new FacturaFirmadaResponse(cdc, xmlFinal);
+
+        String numeroFactura = XmlUtils.obtenerNumeroFacturaDesdeXml(nodo);
+        if (numeroFactura == null || numeroFactura.isBlank()) {
+            System.out.println("❌ Número de factura vacío");
+        } else {
+            System.out.println("✅ Número factura = [" + numeroFactura + "]");
+        }
+
+
+        Integer tipoDocumento = XmlUtils.obtenerTipoDocumentoDesdeXml(nodo);
+        if (tipoDocumento == null) {
+            System.out.println("❌ Tipo de documento vacío");
+        } else {
+            System.out.println("✅ Tipo documento = [" + tipoDocumento + "]");
+        }
+
+
+        String fechaEmision = XmlUtils.obtenerFechaEmisionDesdeXml(nodo);
+        if (fechaEmision == null || fechaEmision.isBlank()) {
+            System.out.println("❌ Fecha de emisión vacía");
+        } else {
+            System.out.println("✅ Fecha emisión = [" + fechaEmision + "]");
+        }
+
+        // XML final
+        System.out.println("PASO 5: antes de convertir XML a String");
+         String xmlFinal = FileXML.xmlToString(nodo);
+        System.out.println("PASO 5 OK");
+
+        System.out.println("SALE de ejecutar()");
+
+        return new FacturaFirmadaResponse(
+                cdc,
+                numeroFactura,
+                tipoDocumento,
+                fechaEmision,
+                xmlFinal
+        );
     }
+
 
 
 }
