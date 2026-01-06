@@ -7,18 +7,17 @@ import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.io.StringReader;
 
-@Path("/factura/xml/firmar")
+@Path("/factura/xml/generar")
 @Consumes("application/json")
 @Produces("application/json")
 @Tag(name = "Factura XML")
-public class FacturaFirmadaResource {
+public class FacturaXmlGenerarResource {
 
     @Inject
     GenerarXmlFacturaUseCase generarXmlFacturaUseCase;

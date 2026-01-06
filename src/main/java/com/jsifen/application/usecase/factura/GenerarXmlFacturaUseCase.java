@@ -28,62 +28,25 @@ public class GenerarXmlFacturaUseCase {
 
     public FacturaFirmadaResponse ejecutar(JsonObject facturaInput) throws Exception {
 
-        System.out.println("ENTRA A ejecutar()");
 
-        // 1. Generar XML
-        System.out.println("PASO 1: antes de generar XML");
+
+        //  Generar XML
         String xmlGenerado = xmlGenerator.generar(facturaInput);
-        System.out.println("PASO 1 OK");
 
-        // 2. Firmar XML
-        System.out.println("PASO 2: antes de firmar XML");
+        //  Firmar XML
         Node nodoFirmado = xmlSigner.signXml(xmlGenerado);
-        System.out.println("PASO 2 OK");
 
-        // 3. Agregar QR
-        System.out.println("PASO 3: antes de agregar QR");
+        //  Agregar QR
         Node nodo = qrNodeBuilder.addQrNode(nodoFirmado);
-        System.out.println("PASO 3 OK");
 
 
-        // CDC
         String cdc = XmlUtils.obtenerCdcDesdeXml(nodo);
-        if (cdc == null || cdc.isBlank()) {
-            System.out.println("❌ CDC vacío");
-        } else {
-            System.out.println("✅ CDC = [" + cdc + "]");
-        }
-
-
         String numeroFactura = XmlUtils.obtenerNumeroFacturaDesdeXml(nodo);
-        if (numeroFactura == null || numeroFactura.isBlank()) {
-            System.out.println("❌ Número de factura vacío");
-        } else {
-            System.out.println("✅ Número factura = [" + numeroFactura + "]");
-        }
-
-
         Integer tipoDocumento = XmlUtils.obtenerTipoDocumentoDesdeXml(nodo);
-        if (tipoDocumento == null) {
-            System.out.println("❌ Tipo de documento vacío");
-        } else {
-            System.out.println("✅ Tipo documento = [" + tipoDocumento + "]");
-        }
-
-
         String fechaEmision = XmlUtils.obtenerFechaEmisionDesdeXml(nodo);
-        if (fechaEmision == null || fechaEmision.isBlank()) {
-            System.out.println("❌ Fecha de emisión vacía");
-        } else {
-            System.out.println("✅ Fecha emisión = [" + fechaEmision + "]");
-        }
 
         // XML final
-        System.out.println("PASO 5: antes de convertir XML a String");
-         String xmlFinal = FileXML.xmlToString(nodo);
-        System.out.println("PASO 5 OK");
-
-        System.out.println("SALE de ejecutar()");
+        String xmlFinal = FileXML.xmlToString(nodo);
 
         return new FacturaFirmadaResponse(
                 cdc,
