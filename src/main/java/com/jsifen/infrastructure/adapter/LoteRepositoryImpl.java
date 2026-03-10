@@ -21,24 +21,38 @@ public class LoteRepositoryImpl implements LoteRepository {
     LoteClient loteClient;
 
     @Override
-    public JsonObject buscarPorLote (String lote) {
+    public JsonObject buscarPorLote(String lote) {
         try {
+            System.out.println("🌐 [HTTP] Enviando petición a la SET para Lote: " + lote);
 
             HttpResponse<String> httpResponse = loteClient.consultaLote(lote);
             int statusCode = httpResponse.statusCode();
+
+            System.out.println("📡 [HTTP] Respuesta recibida. Status Code: " + statusCode);
+
+            if (statusCode != 200) {
+                System.out.println("⚠️ [SET] La API respondió con error: " + httpResponse.body());
+            }
+
             String xmlOutput = httpResponse.body();
 
+            // Conversión de XML a JSON (org.json)
             JSONObject json = XML.toJSONObject(xmlOutput);
+
+            // Conversión al estándar Jakarta para el resto de tu app
             JsonObject jakartaJson = Json.createReader(
                     new StringReader(json.toString())).readObject();
 
+            System.out.println("✅ [JSIFEN] XML convertido a JSON exitosamente.");
             return jakartaJson;
 
         } catch (Exception e) {
+            System.out.println("❌ [ERROR] Falló la comunicación o conversión del lote: " + e.getMessage());
             e.printStackTrace();
             return Json.createObjectBuilder()
-                    .add("error", "Error consultando RUC: " + e.getMessage())
+                    .add("error", "Error consultando Lote: " + e.getMessage())
                     .build();
         }
     }
 }
+
