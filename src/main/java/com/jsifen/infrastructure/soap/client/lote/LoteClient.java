@@ -62,8 +62,6 @@ public class LoteClient {
             String xmlRequest = loteConsultaRequest.createQueryXml(lote);
 
 
-
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(endpointUrl))
                     .header("Content-Type", "application/soap+xml;charset=UTF-8")
@@ -74,26 +72,13 @@ public class LoteClient {
                     HttpResponse.BodyHandlers.ofString());
 
 
-            System.out.println(String.format("🔗 [REQ] [EMISOR:%s] -> Endpoint SET: %s", emisor, endpointUrl));
-            System.out.println(String.format("📝 [XML] [LOTE:%s] -> Generando consulta SOAP:", lote));
-            System.out.println(String.format("📡 [SET-RES] [%d] <- %s",
-                    response.statusCode(), endpointUrl));
-            // 3. Log condicional: solo muestra el cuerpo si hay error (evita basura en consola)
-            if (response.statusCode() != 200) {
-                System.out.println("❌ [SET-ERROR] Detalle: " + response.body());
-            } else {
-                System.out.println("✅ [SET-OK] Respuesta recibida exitosamente.");
-            }
+            System.out.println(String.format("🔗 [REQ] [EMISOR:%s] -> Endpoint SET: %s",
+                    emisor, endpointUrl));
+            System.out.println(String.format("📝 [XML] [LOTE:%s] :", lote));
 
 
             return response;
 
-
-
-            /*
-            return httpClient.send(
-                    request, HttpResponse.BodyHandlers.ofString());
-            */
         } catch (Exception e) {
             throw new RuntimeException("Failed to query Lote: " + e.getMessage(), e);
         }
