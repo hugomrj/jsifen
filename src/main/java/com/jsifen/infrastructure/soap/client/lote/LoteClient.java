@@ -61,6 +61,16 @@ public class LoteClient {
             String endpointUrl = buildConsultaUrl(emisor);
             String xmlRequest = loteConsultaRequest.createQueryXml(lote);
 
+
+
+            System.out.println(String.format("🔗 [REQ] [EMISOR:%s] -> Endpoint SET: %s", emisor, endpointUrl));
+            System.out.println(String.format("📝 [XML] [LOTE:%s] -> Generando consulta SOAP:", lote));
+            System.out.println("------------------------------------------------------------------");
+            System.out.println(xmlRequest);
+            System.out.println("------------------------------------------------------------------");
+
+
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(endpointUrl))
                     .header("Content-Type", "application/soap+xml;charset=UTF-8")
