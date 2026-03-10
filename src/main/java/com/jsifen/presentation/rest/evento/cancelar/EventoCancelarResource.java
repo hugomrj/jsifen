@@ -31,7 +31,7 @@ public class EventoCancelarResource {
     )
     public Response cancelarEvento(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             CancelarRequest request
     ) {
         try {

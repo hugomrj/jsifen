@@ -38,7 +38,7 @@ public class AsyncRecibeResource {
     )
     public Response asyncRecibe(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             @RequestBody(
                     description = "JSON de factura electrónica",
                     required = true,
@@ -154,7 +154,6 @@ public class AsyncRecibeResource {
                 emisor = null;
             }
             emisorContext.setEmisor(emisor);
-
 
             JsonObject jsonObject = Json.createReader(new StringReader(json))
                     .readObject();

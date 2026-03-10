@@ -42,7 +42,7 @@ public class ConsultaDEResource {
     )
     public Response consultaDExml(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             @RequestBody(
                     description = "JSON con el CDC del documento a consultar",
                     required = true,

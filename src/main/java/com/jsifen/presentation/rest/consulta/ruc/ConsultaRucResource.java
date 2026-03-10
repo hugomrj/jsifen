@@ -28,7 +28,7 @@ public class ConsultaRucResource {
     @Operation(summary = "Consulta RUC", description = "Consulta información de un RUC")
     public Response consultarRuc(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             ConsultaRucRequest request)  {
         try {
 

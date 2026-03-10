@@ -32,7 +32,7 @@ public class FacturaXmlGenerarResource {
     )
     public Response firmarXml(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             String json
     ) {
         try {

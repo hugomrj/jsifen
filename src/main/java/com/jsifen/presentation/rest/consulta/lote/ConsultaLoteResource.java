@@ -32,7 +32,7 @@ public class ConsultaLoteResource {
     )
     public Response consultarLote(
             @HeaderParam("token") String token,
-            @HeaderParam("Emisor") String emisor,
+            @HeaderParam("emisor") String emisor,
             ConsultarLoteRequest request
     ) {
         try {
