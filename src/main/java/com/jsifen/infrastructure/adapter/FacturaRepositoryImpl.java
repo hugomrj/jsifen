@@ -19,19 +19,30 @@ public class FacturaRepositoryImpl implements FacturaRepository {
     @Inject
     LoteClient loteClient;
 
-
     @Override
     public JsonObject enviarFactura(String xml) {
-        // Lógica real: enviar el XML a un servicio externo o persistirlo
+
         HttpResponse<String> httpResponse = loteClient.recibeLote(xml);
 
         int statusCode = httpResponse.statusCode();
         String xmlOutput = httpResponse.body();
 
         JSONObject json = XML.toJSONObject(xmlOutput);
+
+        // 🔧 Forzar lote como String para evitar redondeo
+        JSONObject res = json
+                .getJSONObject("env:Envelope")
+                .getJSONObject("env:Body")
+                .getJSONObject("ns2:rResEnviLoteDe");
+
+        String lote = res.get("ns2:dProtConsLote").toString();
+        res.put("ns2:dProtConsLote", lote);
+
         JsonObject jakartaJson = Json.createReader(
                 new StringReader(json.toString())).readObject();
 
         return jakartaJson;
     }
+
+
 }
